@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title> Prediction Result | Rickman </title>
+  <link href="https://fonts.googleapis.com/css?family=Lobster+Two" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Roboto+Condensed:400,400i,700" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Concert+One" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Ubuntu&display=swap" rel="stylesheet">
+
+  <!-- Favicons -->
+  <link href="{{ url_for('static', filename='custom/t-icon.png') }}" rel="icon">
+  <link href="{{ url_for('static', filename='custom/t-icon.png') }}" rel="apple-touch-icon">
+  <script src="https://rawgit.com/eKoopmans/html2pdf/master/dist/html2pdf.bundle.js"></script>
+
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/pred.css') }}" />
+</head>
+
+<header>
+  <nav>
+    <div class="nav-bg"></div>
+    <ul>
+      <li><a href="/"><img src="{{ url_for('static', filename='custom/logo 2.png') }}" height=40px width=40px
+            alt="neuralBlack" />
+          <p> Rickman </p>
+        </a></li>
+    </ul>
+  </nav>
+</header>
+
+<label class="switch">
+  <input type="checkbox">
+  <span class="slider round"></span>
+</label>
+
+<body>
+  <div class="cardpred">
+    <div class="container">
+      <div class="image-container">
+        <div class="container" style="text-align: center;">
+          <h3 class="original-text">Original Image</h3>
+          <img src="{{ url_for('get_uploaded_image', filename=f_name) }}" height="255px" width="255px" />
+        </div>
+        <div class="container" style="text-align: center;">
+          <h3 class="detection-text">Detection Image</h3>
+          <img src="{{ url_for('get_filtered_image', filename=f_name) }}" height="255px" width="255px" />
+        </div>
+      </div>
+      <div id="predictionResults">
+        <h2>Prediction: <span id="displayPrediction"></span></h2>
+      </div>
+      <button type="button" id="downloadReport" onclick="downloadReport()">Download Report</button>
+    </div>
+  </div>
+
+  <script>
+    var actualPrediction = "{{ pred }}";
+    var displayPrediction = actualPrediction ? actualPrediction : "Custom Prediction";
+    document.getElementById("displayPrediction").innerText = displayPrediction;
+  </script>
+
+  <script>
+    function downloadReport() {
+      var imageBefore = "{{ url_for('get_uploaded_image', filename=f_name) }}";
+      var imageAfter = "{{ url_for('get_filtered_image', filename=f_name) }}";
+      var displayPrediction = "{{ pred }}";
+      var fileName = "{{ f_name }}";
+      var logoSrc = "{{ url_for('static', filename='custom/logoo.png') }}";
+
+      var today = new Date();
+      var dd = String(today.getDate()).padStart(2, '0');
+      var mm = String(today.getMonth() + 1).padStart(2, '0');
+      var yyyy = today.getFullYear();
+      var hours = today.getHours();
+      var minutes = String(today.getMinutes()).padStart(2, '0');
+      var seconds = String(today.getSeconds()).padStart(2, '0');
+      var ampm = hours >= 12 ? 'PM' : 'AM';
+      hours = hours % 12;
+      hours = hours ? hours : 12;
+
+      var reportDateTime = mm + '/' + dd + '/' + yyyy + ' ' + hours + ':' + minutes + ':' + seconds + ' ' + ampm;
+
+      var htmlContent = `
+      <div style="display: flex; align-items: center; margin-bottom: 50px;">
+          <img src="${logoSrc}" alt="Logo" style="height: 80px; margin-left: 5px;">
+      </div>
+
+      <style>
+          #userData {
+              display: flex;
+              justify-content: space-between;
+          }
+
+          table {
+              border-collapse: collapse;
+              width: 50%;
+          }
+
+          table, td {
+              border: 1px solid #000;
+              padding: 8px;
+              text-align: left;
+          }
+
+          th {
+              border: 1px solid #000;
+              background-color: #fff;
+              padding: 8px;
+              text-align: left;
+          }
+      </style>
+
+      <div id="userData">
+          <table>
+              <tr>
+                  <th><strong>Patient Name:</strong></th>
+                  <td>{{ user_data.first_name }} {{ user_data.middle_name}} {{ user_data.last_name }}</td>
+              </tr>
+              <tr>
+                  <th><strong>Email Adress:</strong></th>
+                  <td>{{ user_data.email }}</td>
+              </tr>
+              <tr>
+                  <th><strong>National ID:</strong></th>
+                  <td>{{ user_data.national_id }}</td>
+              </tr>
+              <tr>
+                  <th><strong>Gender:</strong></th>
+                  <td>{{ user_data.gender }}</td>
+              </tr>
+          </table>
+
+          <table>
+              <tr>
+                  <th><strong>Report Date:</strong></th>
+                  <td>${reportDateTime}</td>
+              </tr>
+              <tr>
+                  <th><strong>Phone number:</strong></th>
+                  <td>{{ user_data.phone }}</td>
+              </tr>
+              <tr>
+                  <th><strong>Rays Modality:</strong></th>
+                  <td>CT/MRI</td>
+              </tr>
+              <tr>
+                  <th><strong>Patient Age:</strong></th>
+                  <td>{{ user_data.age }} Years</td>
+              </tr>
+          </table>
+      </div>
+
+      <div style="text-align: center; margin-bottom: 60px;margin-top: 60px;">
+          <h1 style="font-weight: bold;">Medical Report</h1>
+      </div>
+
+      <div style="display: flex; justify-content: space-around; align-items: center; margin-bottom: 40px;">
+          <div style="text-align: center;">
+              <p>Original Image</p>
+              <img src="${imageBefore}" height="255px" width="255px" style="border-radius: 30px;" />
+          </div>
+
+          <div style="text-align: center;">
+              <p>Detection Image</p>
+              <img src="${imageAfter}" height="255px" width="255px" style="border-radius: 30px;" />
+          </div>
+      </div>
+
+      <div style="text-align: left; margin-top: 100px; margin-left: 12px;">
+          <h2 style="font-weight: bold;">Prediction: <span style="font-weight: 100;">${displayPrediction}</span></h2>
+      </div>
+
+      <div style="text-align: left; margin-top: 100px; border-top: 1px solid #606060; border-bottom: 1px solid #606060;">
+          <p style="font-size: 14px; font-weight: lighter; margin-left: 20px; margin-right: 20px; color: #606060;">Please be informed that this software is designed to assist in the surveillance of brain tumors, and any outcomes shouldn't be interpreted as conclusive or ultimate diagnoses until further consultation with a medical professional have been sought.</p>
+      </div>
+      `;
+
+      var element = document.createElement('div');
+      element.innerHTML = htmlContent;
+
+      html2pdf(element, {
+        margin: 10,
+        filename: 'rickman_report.pdf',
+        image: { type: 'jpeg', quality: 0.98 },
+        html2canvas: { scale: 2 },
+        jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
+      });
+    }
+  </script>
+
+</body>
+
+</html>

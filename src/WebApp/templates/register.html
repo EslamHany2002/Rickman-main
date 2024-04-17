@@ -1,0 +1,174 @@
+{% extends "base.html" %}
+
+{% block head %}
+<title>Register | Rickman</title>
+<link rel="stylesheet" type="text/css"
+	href="{{ url_for('static', filename='vendor2/bootstrap/css/bootstrap.min.css') }}">
+<link rel="stylesheet" type="text/css"
+	href="{{ url_for('static', filename='fonts/font-awesome-4.7.0/css/font-awesome.min.css') }}">
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='vendor2/animate/animate.css') }}">
+<link rel="stylesheet" type="text/css"
+	href="{{ url_for('static', filename='vendor2/css-hamburgers/hamburgers.min.css') }}">
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='vendor2/select2/select2.min.css') }}">
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/login_util.css') }}">
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/register.css') }}">
+<link rel="stylesheet" type="text/css"
+	href="{{ url_for('static', filename='fonts/font-awesome-4.7.0/css/font-awesome.min.css') }}">
+{% endblock head %}
+
+{% block main %}
+<div class="limiter">
+	<div class="container-login100">
+		<div class="wrap-login100">
+			<div class="login100-pic js-tilt" data-tilt>
+				<img src="{{ url_for('static', filename='custom/sign2.png') }}" alt="IMG">
+			</div>
+			<form class="login100-form validate-form" method="POST">
+				<span class="login100-form-title">
+					SIGN UP
+				</span>
+				<!-- First Four Elements -->
+				<div class="row">
+					<div class="col-md-6">
+						<!-- FIRST NAME -->
+						<div class="wrap-input100 validate-input" data-validate="First name is required">
+							<input class="input100" type="text" name="fname" id="fname" placeholder="First Name">
+							<span class="focus-input100"></span>
+							<span class="symbol-input100">
+								<i class="fa fa-user" aria-hidden="true"></i>
+							</span>
+						</div>
+					</div>
+					<!-- Middle Name -->
+					<div class="col-md-6">
+						<div class="wrap-input100">
+							<input class="input100" type="text" name="mname" id="mname" placeholder="Middle Name">
+							<span class="focus-input100"></span>
+							<span class="symbol-input100">
+								<i class="fa fa-user" aria-hidden="true"></i>
+							</span>
+						</div>
+					</div>
+					<div class="col-md-6">
+						<!-- LAST NAME -->
+						<div class="wrap-input100 validate-input" data-validate="Last Name is required">
+							<input class="input100" type="text" name="lname" id="lname" placeholder="Last Name">
+							<span class="focus-input100"></span>
+							<span class="symbol-input100">
+								<i class="fa fa-user" aria-hidden="true"></i>
+							</span>
+						</div>
+					</div>
+					<div class="col-md-6">
+						<!-- E-MAIL -->
+						<div class="wrap-input100 validate-input" data-validate="Valid e-mail is required">
+							<input class="input100" type="email" name="mail" id="mail" placeholder="Email address">
+							<span class="focus-input100"></span>
+							<span class="symbol-input100">
+								<i class="fa fa-envelope" aria-hidden="true"></i>
+							</span>
+						</div>
+					</div>
+					<div class="col-md-6">
+						<!-- PHONE NUMBER -->
+						<div class="wrap-input100 validate-input" data-validate="Valid phone number is required">
+							<input class="input100" type="tel" name="phone" id="phone" placeholder="Phone number">
+							<span class="focus-input100"></span>
+							<span class="symbol-input100">
+								<i class="fa fa-phone" aria-hidden="true"></i>
+							</span>
+						</div>
+					</div>
+					<div class="col-md-6">
+						<!-- NATIONAL ID -->
+						<div class="wrap-input100 validate-input" data-validate="National ID is required">
+							<input class="input100" type="text" name="national_id" id="national_id"
+								placeholder="National ID">
+							<span class="focus-input100"></span>
+							<span class="symbol-input100">
+								<i class="fa fa-id-card" aria-hidden="true"></i>
+							</span>
+						</div>
+					</div>
+				</div>
+				<!-- Next Four Elements -->
+				<div class="row">
+					<div class="col-md-6">
+						<!-- GENDER -->
+						<div class="wrap-input100 validate-input" data-validate="Gender is required">
+							<select class="input100 gender-select" name="gender" id="gender">
+								<option value="" disabled selected>Select Gender</option>
+								<option value="male">Male</option>
+								<option value="female">Female</option>
+							</select>
+							<span class="focus-input100"></span>
+							<span class="symbol-input100">
+								<i class="fa fa-venus-mars" aria-hidden="true"></i>
+							</span>
+						</div>
+					</div>
+					<!-- Age -->
+					<div class="col-md-6">
+						<div class="wrap-input100 validate-input" data-validate="Age is required">
+							<input class="input100" type="number" name="age" id="age" placeholder="Enter Your Age">
+							<span class="focus-input100"></span>
+							<span class="symbol-input100">
+								<i class="fa fa-birthday-cake" aria-hidden="true"></i>
+							</span>
+						</div>
+					</div>
+					<div class="col-md-6">
+						<!-- PASSWORD -->
+						<div class="wrap-input100 validate-input" data-validate="Password is required">
+							<input class="input100" type="password" name="passw" id="passw"
+								placeholder="Create Password">
+							<span class="focus-input100"></span>
+							<span class="symbol-input100">
+								<i class="fa fa-lock" aria-hidden="true"></i>
+							</span>
+						</div>
+					</div>
+					<div class="col-md-6">
+						<!-- CONFIRM PASSWORD -->
+						<div class="wrap-input100 validate-input" data-validate="Confirm Password is required">
+							<input class="input100" type="password" name="confirm_passw" id="confirm_passw"
+								placeholder="Confirm Password">
+							<span class="focus-input100"></span>
+							<span class="symbol-input100">
+								<i class="fa fa-lock" aria-hidden="true"></i>
+							</span>
+						</div>
+					</div>
+				</div>
+				<div class="container-login100-form-btn">
+					<button type="submit" class="login100-form-btn">
+						Register
+					</button>
+				</div>
+				<div class="text-center p-t-90">
+					Already Registered?
+					<a class="txt3" href="{{ url_for('login') }}">
+						Login Here
+					</a>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+
+<script src="{{ url_for('static', filename='vendor2/jquery/jquery-3.2.1.min.js') }}"></script>
+<script src="{{ url_for('static', filename='vendor2/bootstrap/js/popper.js') }}"></script>
+<script src="{{ url_for('static', filename='vendor2/bootstrap/js/bootstrap.min.js') }}"></script>
+<script src="{{ url_for('static', filename='vendor2/select2/select2.min.js') }}"></script>
+<script src="{{ url_for('static', filename='vendor2/tilt/tilt.jquery.min.js') }}"></script>
+<script>
+	$('.js-tilt').tilt({
+		scale: 1.1
+	})
+</script>
+<script src="{{ url_for('static', filename='js/login.js') }}"></script>
+
+{% endblock main %}
+
+{% block footer %}
+{% endblock %}

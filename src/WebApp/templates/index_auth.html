@@ -1,0 +1,586 @@
+{% extends "base_auth.html" %}
+
+{% block head %}
+
+<title> Rickman </title>
+
+{% endblock head %}
+
+{% block hero %}
+
+<section id="hero" class="hero d-flex align-items-center">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-6 d-flex flex-column justify-content-center">
+        <h1 data-aos="fade-up">Brain Cancer Detection</h1>
+        <h2 data-aos="fade-up" data-aos-delay="400">
+          Rickman provides an intuitive solution for seamlessly identifying and categorizing brain tumors, placing the
+          capability of detection conveniently within your reach
+        </h2>
+        <div data-aos="fade-up" data-aos-delay="600">
+          <div class="text-center text-lg-start">
+            <a href="#about"
+              class="btn-get-started scrollto d-inline-flex align-items-center justify-content-center align-self-center">
+              <span>Get Started</span>
+              <i class="bi bi-arrow-right"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-6 hero-img" data-aos="zoom-out" data-aos-delay="200">
+        <img src="{{ url_for('static',filename='custom/hero-main.png') }}" class="img-fluid" alt="">
+      </div>
+    </div>
+  </div>
+</section>
+
+{% endblock hero %}
+
+{% block main %}
+
+<!-- ======= About Section ======= -->
+<section id="about" class="about">
+
+  <div class="container" data-aos="fade-up">
+    <div class="row gx-0">
+
+      <div class="col-lg-6 d-flex flex-column justify-content-center" data-aos="fade-up" data-aos-delay="200">
+        <div class="content">
+          <h3>Who We Are</h3>
+          <h2>Our primary objective is to deliver swift diagnostic results to accelerate the treatment of the patients
+          </h2>
+          <p>
+            Our main goal is to achieve swifter and more precise detection, reduce human error in diagnosis, and
+            expedite treatment of affected patients.
+          </p>
+          <div class="text-center text-lg-start">
+            <a href="upload"
+              class="btn-read-more d-inline-flex align-items-center justify-content-center align-self-center">
+              <span>Upload Brain MRI</span>
+              <i class="bi bi-arrow-right"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-6 d-flex align-items-center" data-aos="zoom-out" data-aos-delay="200">
+        <img src="{{ url_for('static',filename='custom/about.png') }}" class="img-fluid" alt="">
+      </div>
+
+    </div>
+  </div>
+
+</section><!-- End About Section -->
+
+<!-- ======= Values Section ======= -->
+<section id="values" class="values">
+
+  <div class="container" data-aos="fade-up">
+
+    <header class="section-header">
+      <h2>Our Values</h2>
+      <p>What does our website offer?</p>
+    </header>
+
+    <div class="row">
+
+      <div class="col-lg-4">
+        <div class="box" data-aos="fade-up" data-aos-delay="200">
+          <img src="{{ url_for('static',filename='img/values-1.png') }}" class="img-fluid" alt="">
+          <h3>Easy access from anywhere</h3>
+          <p>This easy to use webapp can be accessed from any smart phone with internet connection.</p>
+        </div>
+      </div>
+
+      <div class="col-lg-4 mt-4 mt-lg-0">
+        <div class="box" data-aos="fade-up" data-aos-delay="400">
+          <img src="{{ url_for('static',filename='img/values-2.png') }}" class="img-fluid" alt="">
+          <h3>Fast and accurate results</h3>
+          <p>Users can quickly get accurate results, avoiding the need for separate doctor's appointments.</p>
+        </div>
+      </div>
+
+      <div class="col-lg-4 mt-4 mt-lg-0">
+        <div class="box" data-aos="fade-up" data-aos-delay="600">
+          <img src="{{ url_for('static',filename='img/values-3.png') }}" class="img-fluid" alt="">
+          <h3>Generate medical report</h3>
+          <p>The website allows users to save, download, and share reports in their profile or via email.</p>
+
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+</section><!-- End Values Section -->
+
+<!-- ======= Counts Section ======= -->
+<section id="counts" class="counts">
+  <div class="container" data-aos="fade-up">
+
+    <div class="row gy-4">
+
+      <div class="col-lg-3 col-md-6">
+        <div class="count-box">
+          <i class="bi bi-emoji-smile"></i>
+          <div>
+            <span data-purecounter-start="0" data-purecounter-end="232" data-purecounter-duration="1"
+              class="purecounter"></span>
+            <p>Happy Clients</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-3 col-md-6">
+        <div class="count-box">
+          <i class="bi bi-journal-richtext" style="color: #ee6c20;"></i>
+          <div>
+            <span data-purecounter-start="0" data-purecounter-end="16" data-purecounter-duration="1"
+              class="purecounter"></span>
+            <p>Projects</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-3 col-md-6">
+        <div class="count-box">
+          <i class="bi bi-headset" style="color: #15be56;"></i>
+          <div>
+            <span data-purecounter-start="0" data-purecounter-end="144" data-purecounter-duration="1"
+              class="purecounter"></span>
+            <p>Hours Of Support</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-3 col-md-6">
+        <div class="count-box">
+          <i class="bi bi-people" style="color: #bb0852;"></i>
+          <div>
+            <span data-purecounter-start="0" data-purecounter-end="7" data-purecounter-duration="1"
+              class="purecounter"></span>
+            <p>Hard Workers</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+</section><!-- End Counts Section -->
+
+<!-- ======= Features Section ======= -->
+<section id="features" class="features">
+
+  <div class="container" data-aos="fade-up">
+
+    <header class="section-header">
+      <h2>Features</h2>
+      <p>What makes our website unique?</p>
+    </header>
+
+    <div class="row">
+
+      <div class="col-lg-6">
+        <img src="{{ url_for('static',filename='img/features.png') }}" class="img-fluid" alt="">
+      </div>
+
+      <div class="col-lg-6 mt-5 mt-lg-0 d-flex">
+        <div class="row align-self-center gy-4">
+
+          <div class="col-md-6" data-aos="zoom-out" data-aos-delay="200">
+            <div class="feature-box d-flex align-items-center">
+              <i class="bi bi-check"></i>
+              <h3>Swift Report Analysis</h3>
+            </div>
+          </div>
+
+          <div class="col-md-6" data-aos="zoom-out" data-aos-delay="300">
+            <div class="feature-box d-flex align-items-center">
+              <i class="bi bi-check"></i>
+              <h3>User-Friendly Interface</h3>
+            </div>
+          </div>
+
+          <div class="col-md-6" data-aos="zoom-out" data-aos-delay="400">
+            <div class="feature-box d-flex align-items-center">
+              <i class="bi bi-check"></i>
+              <h3>Multi-Image Support</h3>
+            </div>
+          </div>
+
+          <div class="col-md-6" data-aos="zoom-out" data-aos-delay="500">
+            <div class="feature-box d-flex align-items-center">
+              <i class="bi bi-check"></i>
+              <h3>Report Storage Feature</h3>
+            </div>
+          </div>
+
+          <div class="col-md-6" data-aos="zoom-out" data-aos-delay="600">
+            <div class="feature-box d-flex align-items-center">
+              <i class="bi bi-check"></i>
+              <h3>Smooth Collaboration</h3>
+            </div>
+          </div>
+
+          <div class="col-md-6" data-aos="zoom-out" data-aos-delay="700">
+            <div class="feature-box d-flex align-items-center">
+              <i class="bi bi-check"></i>
+              <h3>Exactitude in Outcomes</h3>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </div> <!-- / row -->
+
+  </div>
+
+</section><!-- End Features Section -->
+
+<!-- ======= Services Section ======= -->
+<section id="services" class="services">
+
+  <div class="container" data-aos="fade-up">
+
+    <header class="section-header">
+      <h2>Additional Information</h2>
+      <p></p>
+    </header>
+
+    <div class="row gy-4">
+
+      <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="200">
+        <div class="service-box blue">
+          <i class="ri-discuss-line icon"></i>
+          <h3>User Instructions</h3>
+          <p>Register on our website, log in, download your MRI scans, and easily access your results.</p>
+          <a href="instruct" class="read-more"><span>Read More</span> <i class="bi bi-arrow-right"></i></a>
+        </div>
+      </div>
+
+      <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="300">
+        <div class="service-box orange">
+          <i class="ri-discuss-line icon"></i>
+          <h3>How it works?</h3>
+          <p>Our advanced backend ensures accurate results with state-of-the-art algorithms.
+          </p>
+          <a href="#" class="read-more"><span>Read More</span> <i class="bi bi-arrow-right"></i></a>
+        </div>
+      </div>
+
+      <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="400">
+        <div class="service-box green">
+          <i class="ri-discuss-line icon"></i>
+          <h3>Documentation</h3>
+          <p>Explore a comprehensive overview of our project by clicking here for details.</p>
+          <a href="#" class="read-more"><span>Read More</span> <i class="bi bi-arrow-right"></i></a>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+</section><!-- End Services Section -->
+
+{% block profile %}
+<section id="profile" class="profile">
+  <div class="container" data-aos="fade-up">
+    <header class="section-header">
+      <h2>Edit Profile</h2>
+      <p>Profile Information</p>
+    </header>
+
+    <div class="row profile-content">
+      <div class="col-lg-3">
+        <div class="profile-picture" onmouseenter="showOptions()" onmouseleave="hideOptions()">
+          <img id="profile-picture" src="{{ user_data.profile_picture }}" alt="Profile Picture" class="profile-image">
+          <div class="profile-options" id="profile-options" style="display: none;">
+            <button class="btn btn-primary" onclick="toggleEditForm()">Change Picture</button>
+            <button class="btn btn-danger" onclick="removeProfilePicture()">Remove Picture</button>
+          </div>
+          <input type="file" id="image-uploader" accept="image/*" style="display: none;" onchange="previewImage()">
+        </div>
+      </div>
+
+      <div class="profile-details">
+        <ul>
+          <li><strong>Name:</strong> {{ user_data.first_name }} {{ user_data.middle_name }} {{ user_data.last_name }}
+          </li>
+          <li><strong>Email:</strong> {{ user_data.email }}</li>
+          <li><strong>Phone:</strong> {{ user_data.phone }}</li>
+          <li><strong>National ID:</strong> {{ user_data.national_id }}</li>
+          <li><strong>Gender:</strong> {{ user_data.gender }}</li>
+          <li><strong>Age:</strong> {{ user_data.age }} Years</li>
+        </ul>
+        <button class="btn btn-primary" onclick="toggleEditForm()">Edit Profile</button>
+      </div>
+    </div>
+
+    <div class="profile-edit-form" id="edit-form" style="display: none;">
+      <form method="post" action="{{ url_for('update_profile') }}" enctype="multipart/form-data">
+        <div class="form-group">
+          <label for="profile_picture">Profile Picture:</label>
+          <input type="file" class="form-control-file" name="file" id="profile_picture">
+        </div>
+
+        <div class="form-group">
+          <label for="first_name">First Name:</label>
+          <input type="text" class="form-control" name="first_name" value="{{ user_data.first_name }}" required>
+        </div>
+
+        <div class="form-group">
+          <label for="middle_name">Middle Name:</label>
+          <input type="text" class="form-control" name="middle_name" value="{{ user_data.middle_name }}" required>
+        </div>
+
+        <div class="form-group">
+          <label for="last_name">Last Name:</label>
+          <input type="text" class="form-control" name="last_name" value="{{ user_data.last_name }}" required>
+        </div>
+
+        <div class="form-group">
+          <label for="gender">Gender:</label>
+          <select class="form-control" name="gender" required>
+            <option value="male" {{ 'selected' if user_data.gender=='male' }}>Male</option>
+            <option value="female" {{ 'selected' if user_data.gender=='female' }}>Female</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="age">Age:</label>
+          <input type="number" class="form-control" name="age" value="{{ user_data.age }}" required>
+        </div>
+
+        <div class="form-group">
+          <label for="national_id">National ID:</label>
+          <input type="text" class="form-control" name="national_id" value="{{ user_data.national_id }}" required>
+        </div>
+
+        <div class="form-group">
+          <label for="phone">Phone:</label>
+          <input type="tel" class="form-control" name="phone" value="{{ user_data.phone }}" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Save Changes</button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<style>
+  .profile {
+    padding: 40px 0;
+    background-color: #ffffff;
+  }
+
+  .profile-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 40px;
+    margin-bottom: 40px;
+  }
+
+  .profile-picture {
+    position: relative;
+    cursor: pointer;
+    width: 250px;
+    height: 250px;
+    overflow: hidden;
+    border: 4px solid #007bff;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 0 10px #012970;
+  }
+
+  .profile-picture img,
+  .profile-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+    transition: transform 0.3s ease-in-out;
+  }
+
+  .profile-options {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    gap: 10px;
+    z-index: 1;
+  }
+
+  #edit-form {
+    background-color: #f8f9fa;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    border-radius: 25px;
+    box-shadow: 0 0 10px #007bff;
+  }
+
+  .profile-details {
+    flex: 1;
+    margin-left: 30px;
+    background-color: #f8f9fa;
+    padding: 20px;
+    border-radius: 25px;
+    box-shadow: 0 0 10px #007bff;
+  }
+
+  .profile-details ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .profile-details li {
+    margin-bottom: 15px;
+    color: #495057;
+  }
+
+  .profile-details strong {
+    color: #007bff;
+  }
+
+  /* Edit Button Styles */
+  .btn-primary {
+    background-color: #007bff;
+    color: #ffffff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease-in-out;
+  }
+
+  .btn-primary:hover {
+    background-color: #0056b3;
+  }
+
+  /* Edit Form Styles */
+  .profile-edit-form {
+    margin-top: 20px;
+    padding: 20px;
+    background-color: #f8f9fa;
+    border-radius: 25px;
+    box-shadow: 0 0 10px #007bff;
+  }
+
+  .form-group {
+    margin-bottom: 20px;
+  }
+
+  label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: #343a40;
+  }
+
+  input[type="text"],
+  input[type="number"],
+  input[type="email"],
+  input[type="tel"],
+  select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+    box-sizing: border-box;
+  }
+
+  button.btn-primary {
+    background-color: #57b846;
+    box-shadow: 0 0 5px #326729;
+    color: #ffffff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 15px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+  }
+
+  button.btn-primary:hover {
+    background-color: #326729;
+    box-shadow: 0 0 10px #57b846;
+  }
+
+  /* Hover effect on profile picture */
+  .profile:hover .profile-picture img,
+  .profile:hover .static-image {
+    transform: scale(1.1);
+  }
+</style>
+
+<script>
+  function toggleEditForm() {
+    var imageUploader = document.getElementById('image-uploader');
+    imageUploader.click();
+  }
+
+  function toggleImageUploader() {
+    var imageUploader = document.getElementById('image-uploader');
+    imageUploader.click();
+  }
+
+  function previewImage() {
+    var profilePicture = document.getElementById('profile-picture');
+    var imageUploader = document.getElementById('image-uploader');
+    var file = imageUploader.files[0];
+
+    if (file) {
+      var reader = new FileReader();
+
+      reader.onload = function (e) {
+        profilePicture.src = e.target.result;
+        document.getElementById('edit-form').style.backgroundImage = `url('${e.target.result}')`;
+      };
+
+      reader.readAsDataURL(file);
+    }
+  }
+
+  function showOptions() {
+    var profileOptions = document.getElementById('profile-options');
+    profileOptions.style.display = 'block';
+  }
+
+  function hideOptions() {
+    var profileOptions = document.getElementById('profile-options');
+    profileOptions.style.display = 'none';
+  }
+
+  function removeProfilePicture() {
+    var profilePicture = document.getElementById('profile-picture');
+    profilePicture.src = '';  // Set to an empty string or a default placeholder image
+    var profileOptions = document.getElementById('profile-options');
+    profileOptions.style.display = 'none';
+
+    // Code to remove profile picture from Firebase Storage
+    var user_id = '{{ user_data.user_id }}';  // Add the user ID here
+    var storageRef = firebase.storage().ref();
+    var imageRef = storageRef.child('profile_images/' + user_id + '/profile_picture.jpg');
+
+    // Delete the file
+    imageRef.delete().then(function () {
+      // File deleted successfully
+    }).catch(function (error) {
+      // Uh-oh, an error occurred!
+      console.log(error.message);
+    });
+  }
+
+</script>
+{% endblock profile %}
+
+{% endblock main %}

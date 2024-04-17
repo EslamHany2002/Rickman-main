@@ -1,0 +1,440 @@
+html {
+  scroll-behavior: smooth;
+}
+
+body,
+html {
+  height: 100%;
+  margin: 0;
+}
+
+.bgblack {
+  width: 100%;
+  height: 100%;
+  background-color: black;
+}
+
+.bg {
+  background-image: url("../custom/3.jpeg");
+  opacity: 0.5;
+  height: 100%;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  background-attachment: fixed;
+}
+
+.fronttext {
+  background-color: white;
+  color: black;
+  font-family: 'Dosis', sans-serif;
+  font-weight: bold;
+  font-size: 50px;
+  mix-blend-mode: screen;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 65%;
+  padding: 5px;
+  text-align: center;
+  margin: 0;
+  border-radius: 25px;
+}
+
+.downarrow {
+  font-size: 100px;
+  color: white;
+  position: absolute;
+  top: 58%;
+  left: 9%;
+  width: 80%;
+  padding: 20px;
+  text-align: center;
+  margin-bottom: 0;
+}
+
+.downarrow a {
+  font-size: 100px;
+  color: white;
+}
+
+.downarrow a:hover {
+  text-decoration: none;
+}
+
+.logopic {
+  position: absolute;
+  top: 20%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 2;
+  width: 400px;
+}
+
+.infobg {
+  background-image: url("../custom/2.jpg");
+  opacity: 0.5;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  height: 100%;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  background-attachment: fixed;
+}
+
+.info {
+  top: 100%;
+  position: absolute;
+  height: 100%;
+}
+
+.info .infoup,
+.info .infodown {
+  text-align: center;
+}
+
+.info .infoup a,
+.info .infodown a {
+  text-decoration: none;
+  font-size: 100px;
+  color: black;
+}
+
+.info .infoup a:hover,
+.info .infodown a:hover {
+  text-decoration: none;
+}
+
+.info .infohead {
+  font-family: 'Dosis', sans-serif;
+  font-weight: bold;
+  font-size: 50px;
+  color: black;
+  text-align: center;
+  padding: 0px 0px 100px 0px;
+  margin-top: 0;
+}
+
+.info .infocols {
+  width: 90%;
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
+}
+
+.info .infocol {
+  border-right: 1px black solid;
+  width: 28%;
+  display: inline-block;
+  padding: 35px;
+}
+
+.info .infocol .infotext {
+  font-family: 'Gudea', sans-serif;
+}
+
+.info .infocol .infotopic {
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.info .infocollast {
+  border: none;
+}
+
+.uploadblack {
+  width: 100%;
+  height: 100%;
+  background-color: black;
+}
+
+.uploadbg {
+  background-image: url("../custom/1.jpg");
+  opacity: 0.5;
+  height: 100%;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  background-attachment: fixed;
+}
+
+.upload {
+  top: 195%;
+  position: absolute;
+  height: 100%;
+  width: 100%;
+}
+
+.upload .uploadup,
+.upload .uploadtop {
+  text-align: center;
+}
+
+.upload .uploadup a,
+.upload .uploadtop a {
+  text-decoration: none;
+  font-size: 100px;
+  color: black;
+}
+
+.upload .uploadup a:hover,
+.upload .uploadtop a:hover {
+  text-decoration: none;
+}
+
+.upload .uploadup a,
+.upload .uploadtop a {
+  color: white;
+}
+
+.upload .uploadtop {
+  position: absolute;
+  bottom: -90px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 70px;
+}
+
+.upload .uploadtop a {
+  text-decoration: none;
+  color: white;
+  display: inline-block;
+  transition: transform 0.3s ease;
+}
+
+.upload .uploadtop a:hover {
+  transform: translateY(10px);
+}
+
+.upload .uploadhead {
+  font-family: 'Dosis', sans-serif;
+  font-weight: bold;
+  font-size: 50px;
+  color: black;
+  text-align: center;
+  padding: 0px 0px 100px 0px;
+  margin-top: 0;
+  color: white;
+  margin: 0;
+  padding-bottom: 7px;
+}
+
+.upload .uploadtext {
+  color: white;
+  font-size: 19px;
+  font-family: 'Gudea', sans-serif;
+  text-align: center;
+}
+
+.upload .form {
+  padding-top: 100px;
+  padding-bottom: 50px;
+  width: 40%;
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
+}
+
+.upload .form .browse {
+  font-size: 19px;
+  color: white;
+  font-family: 'Gudea', sans-serif;
+  position: relative;
+  top: 4.5px;
+  left: 12px;
+}
+
+.upload .form .submit {
+  background-color: #408634;
+  color: white;
+  border-radius: 5px;
+  border: 1px solid rgb(255, 255, 255);
+  font-size: 16px;
+  padding: 8px;
+  font-weight: bold;
+  font-family: 'Gudea', sans-serif;
+  position: relative;
+  top: 55px;
+  left: -320px;
+  width: 140px;
+  transition: background-color 0.5s ease;
+}
+
+.upload .form .submit:hover {
+  background-color: #58b748;
+}
+
+.upload .form {
+  padding-top: 100px;
+  padding-bottom: 50px;
+  width: 58.7%;
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
+  float: right;
+}
+
+.upload .form .image-container {
+  background: rgba(255, 255, 255, 0.1) url("../custom/photo.png") no-repeat center center;
+  background-size: 180px;
+  width: 258px;
+  height: 280px;
+  border: 3px solid white;
+  border-radius: 10px;
+  overflow: hidden;
+  margin-bottom: 10px;
+  margin-top: -80px;
+}
+
+
+
+.upload .form .selected-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  border-radius: 5px;
+}
+
+input[type=file]::-webkit-file-upload-button {
+  border: 2px solid #ffffff;
+  padding: .2em .4em;
+  border-radius: .4em;
+  background-color: #000000;
+  color: white;
+  transition: 1s;
+}
+
+input[type=file]::file-selector-button {
+  border: 2px solid #ffffff;
+  padding: .2em .4em;
+  border-radius: .4em;
+  background-color: #000000;
+  color: white;
+  transition: 1s;
+}
+
+input[type=file]::-webkit-file-upload-button:hover {
+  background-color: #ffffff;
+  border: 2px solid #000000;
+  color: rgb(0, 0, 0);
+}
+
+input[type=file]::file-selector-button:hover {
+  background-color: #ffffff;
+  border: 2px solid #000000;
+  color: rgb(0, 0, 0);
+}
+
+/* استعلام وسائط للشاشات الصغيرة */
+@media only screen and (max-width: 768px) {
+  .fronttext {
+    font-size: 30px;
+  }
+
+  .downarrow {
+    font-size: 50px;
+  }
+
+  .logopic {
+    width: 200px;
+  }
+
+  .info .infoup a,
+  .info .infodown a {
+    font-size: 50px;
+  }
+
+  .info .infohead {
+    font-size: 30px;
+    padding: 0px 0px 50px 0px;
+  }
+
+  .info .infocol {
+    width: 100%;
+    border-right: none;
+    padding: 15px;
+  }
+
+  .info .infocol .infotext,
+  .info .infotopic {
+    font-size: 16px;
+  }
+
+  .upload .uploadup a,
+  .upload .uploadtop a {
+    font-size: 50px;
+  }
+
+  .upload .uploadtop {
+    font-size: 40px;
+    bottom: -50px;
+  }
+
+  .upload .uploadhead {
+    font-size: 30px;
+    padding: 20px 0px 30px 0px;
+  }
+
+  .upload .uploadtext {
+    font-size: 16px;
+  }
+
+  .upload .form {
+    width: 80%;
+    float: none;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .upload .form .image-container {
+    width: 100%;
+    max-width: 258px;
+    height: 280px;
+    max-height: 280px;
+    border-radius: 10px;
+    overflow: hidden;
+    margin-bottom: 10px;
+    margin-top: -80px;
+    margin-left: 175px;
+  }
+
+  .upload .form .browse {
+    position: relative;
+    top: 6px;
+    left: 185px;
+    margin-right: 10px;
+  }
+
+  .upload .form .submit {
+    padding: 8px;
+    position: relative;
+    top: 55px;
+    left: -155px;
+    width: 140px;
+    margin-right: 10px;
+  }
+}
+
+/*--------------------------------------------------------------
+# scroll
+--------------------------------------------------------------*/
+
+::-webkit-scrollbar {
+  width: 1px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgb(0, 0, 0);
+}
+
+::-webkit-scrollbar-thumb {
+  background: #ffffff;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #d8d8d8;
+}

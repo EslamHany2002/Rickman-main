@@ -1,0 +1,434 @@
+{% extends "base.html" %}
+
+{% block head %}
+<title> Rickman </title>
+{% endblock head %}
+
+{% block hero %}
+
+<section id="hero" class="hero d-flex align-items-center">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-6 d-flex flex-column justify-content-center">
+        <h1 data-aos="fade-up">Brain Cancer Detection</h1>
+        <h2 data-aos="fade-up" data-aos-delay="400">
+          Rickman provides an intuitive solution for seamlessly identifying and categorizing brain tumors, placing the
+          capability of detection conveniently within your reach
+        </h2>
+        <div data-aos="fade-up" data-aos-delay="600">
+          <div class="text-center text-lg-start">
+            <a href="#about"
+              class="btn-get-started scrollto d-inline-flex align-items-center justify-content-center align-self-center">
+              <span>Get Started</span>
+              <i class="bi bi-arrow-right"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-6 hero-img" data-aos="zoom-out" data-aos-delay="200">
+        <img src="{{ url_for('static',filename='custom/hero-main.png') }}" class="img-fluid" alt="">
+      </div>
+    </div>
+  </div>
+</section>
+
+{% endblock hero %}
+
+{% block main %}
+
+<!-- ======= About Section ======= -->
+<section id="about" class="about">
+
+  <div class="container" data-aos="fade-up">
+    <div class="row gx-0">
+
+      <div class="col-lg-6 d-flex flex-column justify-content-center" data-aos="fade-up" data-aos-delay="200">
+        <div class="content">
+          <h3>Who We Are</h3>
+          <h2>Our primary objective is to deliver swift diagnostic results to accelerate the treatment of the patients
+          </h2>
+          <p>
+            Our main goal is to achieve swifter and more precise detection, reduce human error in diagnosis, and
+            expedite treatment of affected patients.
+          </p>
+          <div class="text-center text-lg-start">
+            <a href="login"
+              class="btn-read-more d-inline-flex align-items-center justify-content-center align-self-center">
+              <span>Log In</span>
+              <i class="bi bi-arrow-right"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-6 d-flex align-items-center" data-aos="zoom-out" data-aos-delay="200">
+        <img src="{{ url_for('static',filename='custom/about.png') }}" class="img-fluid" alt="">
+      </div>
+
+    </div>
+  </div>
+
+</section><!-- End About Section -->
+
+<!-- ======= Values Section ======= -->
+<section id="values" class="values">
+
+  <div class="container" data-aos="fade-up">
+
+    <header class="section-header">
+      <h2>Our Values</h2>
+      <p>What does our website offer?</p>
+    </header>
+
+    <div class="row">
+
+      <div class="col-lg-4">
+        <div class="box" data-aos="fade-up" data-aos-delay="200">
+          <img src="{{ url_for('static',filename='img/values-1.png') }}" class="img-fluid" alt="">
+          <h3>Easy access from anywhere</h3>
+          <p>This easy to use webapp can be accessed from any smart phone with internet connection.</p>
+        </div>
+      </div>
+
+      <div class="col-lg-4 mt-4 mt-lg-0">
+        <div class="box" data-aos="fade-up" data-aos-delay="400">
+          <img src="{{ url_for('static',filename='img/values-2.png') }}" class="img-fluid" alt="">
+          <h3>Fast and accurate results</h3>
+          <p>Users can quickly get accurate results, avoiding the need for separate doctor's appointments.</p>
+        </div>
+      </div>
+
+      <div class="col-lg-4 mt-4 mt-lg-0">
+        <div class="box" data-aos="fade-up" data-aos-delay="600">
+          <img src="{{ url_for('static',filename='img/values-3.png') }}" class="img-fluid" alt="">
+          <h3>Generate medical report</h3>
+          <p>The website allows users to save, download, and share reports in their profile or via email.</p>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+</section><!-- End Values Section -->
+
+<!-- ======= Counts Section ======= -->
+<section id="counts" class="counts">
+  <div class="container" data-aos="fade-up">
+
+    <div class="row gy-4">
+
+      <div class="col-lg-3 col-md-6">
+        <div class="count-box">
+          <i class="bi bi-emoji-smile"></i>
+          <div>
+            <span data-purecounter-start="0" data-purecounter-end="232" data-purecounter-duration="1"
+              class="purecounter"></span>
+            <p>Happy Clients</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-3 col-md-6">
+        <div class="count-box">
+          <i class="bi bi-journal-richtext" style="color: #ee6c20;"></i>
+          <div>
+            <span data-purecounter-start="0" data-purecounter-end="16" data-purecounter-duration="1"
+              class="purecounter"></span>
+            <p>Projects</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-3 col-md-6">
+        <div class="count-box">
+          <i class="bi bi-headset" style="color: #15be56;"></i>
+          <div>
+            <span data-purecounter-start="0" data-purecounter-end="144" data-purecounter-duration="1"
+              class="purecounter"></span>
+            <p>Hours Of Support</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-3 col-md-6">
+        <div class="count-box">
+          <i class="bi bi-people" style="color: #bb0852;"></i>
+          <div>
+            <span data-purecounter-start="0" data-purecounter-end="7" data-purecounter-duration="1"
+              class="purecounter"></span>
+            <p>Hard Workers</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+</section><!-- End Counts Section -->
+
+<!-- ======= Features Section ======= -->
+<section id="features" class="features">
+
+  <div class="container" data-aos="fade-up">
+
+    <header class="section-header">
+      <h2>Features</h2>
+      <p>What makes our website unique?</p>
+    </header>
+
+    <div class="row">
+
+      <div class="col-lg-6">
+        <img src="{{ url_for('static',filename='img/features.png') }}" class="img-fluid" alt="">
+      </div>
+
+      <div class="col-lg-6 mt-5 mt-lg-0 d-flex">
+        <div class="row align-self-center gy-4">
+
+          <div class="col-md-6" data-aos="zoom-out" data-aos-delay="200">
+            <div class="feature-box d-flex align-items-center">
+              <i class="bi bi-check"></i>
+              <h3>Swift Report Analysis</h3>
+            </div>
+          </div>
+
+          <div class="col-md-6" data-aos="zoom-out" data-aos-delay="300">
+            <div class="feature-box d-flex align-items-center">
+              <i class="bi bi-check"></i>
+              <h3>User-Friendly Interface</h3>
+            </div>
+          </div>
+
+          <div class="col-md-6" data-aos="zoom-out" data-aos-delay="400">
+            <div class="feature-box d-flex align-items-center">
+              <i class="bi bi-check"></i>
+              <h3>Multi-Image Support</h3>
+            </div>
+          </div>
+
+          <div class="col-md-6" data-aos="zoom-out" data-aos-delay="500">
+            <div class="feature-box d-flex align-items-center">
+              <i class="bi bi-check"></i>
+              <h3>Report Storage Feature</h3>
+            </div>
+          </div>
+
+          <div class="col-md-6" data-aos="zoom-out" data-aos-delay="600">
+            <div class="feature-box d-flex align-items-center">
+              <i class="bi bi-check"></i>
+              <h3>Smooth Collaboration</h3>
+            </div>
+          </div>
+
+          <div class="col-md-6" data-aos="zoom-out" data-aos-delay="700">
+            <div class="feature-box d-flex align-items-center">
+              <i class="bi bi-check"></i>
+              <h3>Exactitude in Outcomes</h3>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </div> <!-- / row -->
+
+  </div>
+
+</section><!-- End Features Section -->
+
+<!-- ======= Services Section ======= -->
+<section id="services" class="services">
+
+  <div class="container" data-aos="fade-up">
+
+    <header class="section-header">
+      <h2>Additional Information</h2>
+      <p></p>
+    </header>
+
+    <div class="row gy-4">
+
+      <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="200">
+        <div class="service-box blue">
+          <i class="ri-discuss-line icon"></i>
+          <h3>User Instructions</h3>
+          <p>Register on our website, log in, download your MRI scans, and easily access your results.</p>
+          <a href="instruct" class="read-more"><span>Read More</span> <i class="bi bi-arrow-right"></i></a>
+        </div>
+      </div>
+
+      <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="300">
+        <div class="service-box orange">
+          <i class="ri-discuss-line icon"></i>
+          <h3>How it works?</h3>
+          <p>Our advanced backend ensures accurate results with state-of-the-art algorithms.
+          </p>
+          <a href="#" class="read-more"><span>Read More</span> <i class="bi bi-arrow-right"></i></a>
+        </div>
+      </div>
+
+      <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="400">
+        <div class="service-box green">
+          <i class="ri-discuss-line icon"></i>
+          <h3>Documentation</h3>
+          <p>Explore a comprehensive overview of our project by clicking here for details.</p>
+          <a href="#" class="read-more"><span>Read More</span> <i class="bi bi-arrow-right"></i></a>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+</section><!-- End Services Section -->
+
+<!-- ======= Team Section ======= -->
+<section id="team" class="team">
+
+  <div class="container" data-aos="fade-up">
+
+    <header class="section-header">
+      <h2>Team</h2>
+      <p>Our hard working team</p>
+    </header>
+    <i class="carousel-control carousel-prev" id="left">&lt;</i>
+
+    <div class="carousel-wrapper">
+      <div class="carousel">
+        <!-- Team Members -->
+        <div class="card">
+          <div class="member">
+            <div class="member-img">
+              <img src="{{ url_for('static',filename='img/team/team-21.jpg') }}" class="img-fluid" alt="">
+              <div class="social">
+                <a href="#"><i class="bi bi-twitter"></i></a>
+                <a href="#"><i class="bi bi-facebook"></i></a>
+                <a href="#"><i class="bi bi-instagram"></i></a>
+                <a href="#"><i class="bi bi-linkedin"></i></a>
+              </div>
+            </div>
+            <div class="member-info">
+              <h4>ِEslam Hany</h4>
+              <span>Member ID</span>
+              <p> </p>
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="member">
+            <div class="member-img">
+              <img src="{{ url_for('static',filename='img/team/team-21.jpg') }}" class="img-fluid" alt="">
+              <div class="social">
+                <a href="#"><i class="bi bi-twitter"></i></a>
+                <a href="#"><i class="bi bi-facebook"></i></a>
+                <a href="#"><i class="bi bi-instagram"></i></a>
+                <a href="#"><i class="bi bi-linkedin"></i></a>
+              </div>
+            </div>
+            <div class="member-info">
+              <h4>ِAbdelrhman Salman</h4>
+              <span>Member ID</span>
+              <p> </p>
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="member">
+            <div class="member-img">
+              <img src="{{ url_for('static',filename='img/team/team-21.jpg') }}" class="img-fluid" alt="">
+              <div class="social">
+                <a href="#"><i class="bi bi-twitter"></i></a>
+                <a href="#"><i class="bi bi-facebook"></i></a>
+                <a href="#"><i class="bi bi-instagram"></i></a>
+                <a href="#"><i class="bi bi-linkedin"></i></a>
+              </div>
+            </div>
+            <div class="member-info">
+              <h4>Abdelrhman Reda</h4>
+              <span>Member ID</span>
+              <p> </p>
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="member">
+            <div class="member-img">
+              <img src="{{ url_for('static',filename='img/team/team-21.jpg') }}" class="img-fluid" alt="">
+              <div class="social">
+                <a href="#"><i class="bi bi-twitter"></i></a>
+                <a href="#"><i class="bi bi-facebook"></i></a>
+                <a href="#"><i class="bi bi-instagram"></i></a>
+                <a href="#"><i class="bi bi-linkedin"></i></a>
+              </div>
+            </div>
+            <div class="member-info">
+              <h4>Abdelrhman Askar</h4>
+              <span>Member ID</span>
+              <p> </p>
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="member">
+            <div class="member-img">
+              <img src="{{ url_for('static',filename='img/team/team-21.jpg') }}" class="img-fluid" alt="">
+              <div class="social">
+                <a href="#"><i class="bi bi-twitter"></i></a>
+                <a href="#"><i class="bi bi-facebook"></i></a>
+                <a href="#"><i class="bi bi-instagram"></i></a>
+                <a href="#"><i class="bi bi-linkedin"></i></a>
+              </div>
+            </div>
+            <div class="member-info">
+              <h4>Khaled Elgendy</h4>
+              <span>Member ID</span>
+              <p> </p>
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="member">
+            <div class="member-img">
+              <img src="{{ url_for('static',filename='img/team/team-21.jpg') }}" class="img-fluid" alt="">
+              <div class="social">
+                <a href="#"><i class="bi bi-twitter"></i></a>
+                <a href="#"><i class="bi bi-facebook"></i></a>
+                <a href="#"><i class="bi bi-instagram"></i></a>
+                <a href="#"><i class="bi bi-linkedin"></i></a>
+              </div>
+            </div>
+            <div class="member-info">
+              <h4>Mahmoud Morsy</h4>
+              <span>Member ID</span>
+              <p> </p>
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="member">
+            <div class="member-img">
+              <img src="{{ url_for('static',filename='img/team/team-21.jpg') }}" class="img-fluid" alt="">
+              <div class="social">
+                <a href="#"><i class="bi bi-twitter"></i></a>
+                <a href="#"><i class="bi bi-facebook"></i></a>
+                <a href="#"><i class="bi bi-instagram"></i></a>
+                <a href="#"><i class="bi bi-linkedin"></i></a>
+              </div>
+            </div>
+            <div class="member-info">
+              <h4>Omar Afify</h4>
+              <span>Member ID</span>
+              <p> </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <i class="carousel-control carousel-next" id="right">&gt;</i>
+  </div>
+
+</section>
+
+
+{% endblock main %}
