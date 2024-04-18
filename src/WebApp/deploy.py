@@ -3,6 +3,7 @@ import firebase_admin
 from firebase_admin import credentials, initialize_app, firestore, storage, auth
 from flask import Flask, render_template, flash, redirect, url_for, session, request, send_file,jsonify
 from werkzeug.utils import secure_filename
+from werkzeug.security import check_password_hash
 import cv2
 import numpy as np
 import requests
@@ -17,7 +18,7 @@ app.config['FILTERED_IMAGES_FOLDER'] = FILTERED_IMAGES_FOLDER
 app.secret_key = "m4xpl0it"
 
 # Initialize Firebase
-cred = credentials.Certificate("D:\\Rickman-main\\Rickman-main\\src\\WebApp\\instance\\rickman-de167-firebase-adminsdk-99sn0-b2c780d3f0.json")
+cred = credentials.Certificate("F:/Abdelrhman/Rickman-main/src/WebApp/instance/rickman-de167-firebase-adminsdk-99sn0-b2c780d3f0.json")
 firebase_app = initialize_app(cred, options={'storageBucket': 'rickman-de167.appspot.com'})
 firestore_db = firestore.client()
 
@@ -125,19 +126,21 @@ def update_profile():
         age = request.form['age']
         national_id = request.form['national_id']
         phone = request.form['phone']
+        email = request.form['email']
 
         user_ref = firestore_db.collection('users').document(user_id)
-        user_ref.update({
+        user_data = {
             'first_name': first_name,
             'middle_name': middle_name,
             'last_name': last_name,
             'gender': gender,
             'age': age,
             'national_id': national_id,
-            'phone': phone
-        })
+            'phone': phone,
+            'email': email
+        }
 
-        # Check if a profile picture was uploaded
+        # Check if a profile picture file is uploaded
         if 'file' in request.files:
             f = request.files['file']
             if f and is_allowed_file(f.filename):
@@ -153,14 +156,30 @@ def update_profile():
                 # Update the user's profile picture URL in Firestore
                 blob.make_public()
                 profile_picture_url = blob.public_url
-                user_ref.update({'profile_picture': profile_picture_url})
-            else:
-                # No file uploaded, delete the profile picture from Storage and update Firestore
-                blob_path = f'profile_images/{user_id}'
-                delete_profile_picture(blob_path)
-                user_ref.update({'profile_picture': ''})
+                user_data['profile_picture'] = profile_picture_url
+
+        # Check if the email is being updated
+        if email != session['user_id']:
+            try:
+                # Update email in Firebase Authentication
+                user = auth.update_user(user_id, email=email)
+            except Exception as e:
+                print(f"Error updating email in Firebase Authentication: {e}")
+
+        # Update user data in Firestore
+        user_ref.update(user_data)
 
     return redirect(url_for('index_auth'))
+
+@app.route('/remove_profile_picture', methods=['POST'])
+def remove_profile_picture():
+    if 'user_id' in session:
+        user_id = session['user_id']
+        # Update the user's profile picture URL to an empty string in Firestore
+        user_ref = firestore_db.collection('users').document(user_id)
+        user_ref.update({'profile_picture': ''})
+        return jsonify({'success': True})
+    return jsonify({'success': False})
 
 def delete_profile_picture(blob_path):
     bucket = storage.bucket(app=firebase_app)
@@ -340,6 +359,5 @@ def forgot_password():
 if __name__ == "__main__":
     app.run(debug=True, port=3000)
 
-
-#cd D:\Rickman-main\Rickman-main\src\WebApp
+#cd F:\Abdelrhman\Rickman\src\WebApp
 #python deploy.py
