@@ -40,5 +40,5 @@ if __name__ == '__main__':
     app.run()
 
 
-#cd F:\Abdelrhman\Rickman-main\src\WebApp
+#cd D:\Rickman-main\Rickman-main\src\WebApp
 #python app.py

@@ -341,5 +341,5 @@ if __name__ == "__main__":
     app.run(debug=True, port=3000)
 
 
-#cd F:\Abdelrhman\Rickman-main\src\WebApp
+#cd D:\Rickman-main\Rickman-main\src\WebApp
 #python deploy.py
