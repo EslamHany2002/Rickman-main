@@ -11,7 +11,7 @@ LABELS = ['The image contains a brain tumor and the type is Glioma',
           'The image does not contain a brain tumor.',
           'The image contains a brain tumor and the type is Pituitary']
 
-model = load_model('D:\Rickman-main\Rickman-main\src\CNN\models\BrainTumor.h5')
+model = load_model('F:\Abdelrhman\Rickman\src\CNN\models\BrainTumor.h5')
 
 
 def preprocess_image(image):
@@ -40,5 +40,5 @@ if __name__ == '__main__':
     app.run()
 
 
-#cd D:\Rickman-main\Rickman-main\src\WebApp
+#cd F:\Abdelrhman\Rickman\src\WebApp
 #python app.py

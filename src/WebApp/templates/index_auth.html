@@ -297,9 +297,8 @@
     <div class="row profile-content">
       <div class="col-lg-3">
         <div class="profile-picture" onmouseenter="showOptions()" onmouseleave="hideOptions()">
-          <img id="profile-picture" src="{{ user_data.profile_picture }}" alt="Profile Picture" class="profile-image">
+          <img id="profile-picture" src="{{ user_data.profile_picture }}" alt="." class="profile-image">
           <div class="profile-options" id="profile-options" style="display: none;">
-            <button class="btn btn-primary" onclick="toggleEditForm()">Change Picture</button>
             <button class="btn btn-danger" onclick="removeProfilePicture()">Remove Picture</button>
           </div>
           <input type="file" id="image-uploader" accept="image/*" style="display: none;" onchange="previewImage()">
@@ -340,6 +339,11 @@
         <div class="form-group">
           <label for="last_name">Last Name:</label>
           <input type="text" class="form-control" name="last_name" value="{{ user_data.last_name }}" required>
+        </div>
+
+        <div class="form-group">
+          <label for="email">Email:</label>
+          <input type="email" class="form-control" name="email" value="{{ user_data.email }}" required>
         </div>
 
         <div class="form-group">
@@ -396,6 +400,10 @@
     justify-content: center;
     align-items: center;
     box-shadow: 0 0 10px #012970;
+    background-image: url('/static/img/team/team-222.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
   }
 
   .profile-picture img,
@@ -524,8 +532,8 @@
 
 <script>
   function toggleEditForm() {
-    var imageUploader = document.getElementById('image-uploader');
-    imageUploader.click();
+    var editForm = document.getElementById('edit-form');
+    editForm.style.display = (editForm.style.display === 'none') ? 'block' : 'none';
   }
 
   function toggleImageUploader() {
@@ -550,6 +558,18 @@
     }
   }
 
+  document.getElementById('profile_picture').addEventListener('change', function () {
+    var file = this.files[0];
+    var reader = new FileReader();
+    var profilePicture = document.getElementById('profile-picture');
+
+    reader.onload = function (e) {
+      profilePicture.src = e.target.result;
+    };
+
+    reader.readAsDataURL(file);
+  });
+
   function showOptions() {
     var profileOptions = document.getElementById('profile-options');
     profileOptions.style.display = 'block';
@@ -561,23 +581,21 @@
   }
 
   function removeProfilePicture() {
-    var profilePicture = document.getElementById('profile-picture');
-    profilePicture.src = '';  // Set to an empty string or a default placeholder image
-    var profileOptions = document.getElementById('profile-options');
-    profileOptions.style.display = 'none';
-
-    // Code to remove profile picture from Firebase Storage
-    var user_id = '{{ user_data.user_id }}';  // Add the user ID here
-    var storageRef = firebase.storage().ref();
-    var imageRef = storageRef.child('profile_images/' + user_id + '/profile_picture.jpg');
-
-    // Delete the file
-    imageRef.delete().then(function () {
-      // File deleted successfully
-    }).catch(function (error) {
-      // Uh-oh, an error occurred!
-      console.log(error.message);
-    });
+    fetch('/remove_profile_picture', {
+      method: 'POST',
+      body: JSON.stringify({}),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+      .then(response => response.json())
+      .then(data => {
+        var profilePicture = document.getElementById('profile-picture');
+        profilePicture.src = '';
+        var profileOptions = document.getElementById('profile-options');
+        profileOptions.style.display = 'none';
+      })
+      .catch(error => console.error('Error:', error));
   }
 
 </script>
