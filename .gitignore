@@ -49,3 +49,8 @@ src/WebApp/app.py
 src/WebApp/app.py
 src/WebApp/app.py
 src/WebApp/app.py
+src/CNN/model2/model-07-0.97-0.14.h5
+src/CNN/models/model.pkl
+src/CNN/models/seg_model.h5
+src/CNN/Yolo/Tumor seg(x).pt
+src/CNN/Yolo/Tumor seg(x).pt
