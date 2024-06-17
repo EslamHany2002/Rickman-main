@@ -6,10 +6,10 @@ from flask import Flask, jsonify, request
 
 app = Flask(__name__)
 
-LABELS = ['The image contains a brain tumor and the type is Glioma',
-          'The image contains a brain tumor and the type is Meningioma',
+LABELS = ['The image contains a brain tumor and the type is Glioma.',
+          'The image contains a brain tumor and the type is Meningioma.',
           'The image does not contain a brain tumor.',
-          'The image contains a brain tumor and the type is Pituitary']
+          'The image contains a brain tumor and the type is Pituitary.']
 
 model = load_model('F:\Abdelrhman\Rickman\src\CNN\models\BrainTumor.h5')
 

@@ -342,11 +342,6 @@
         </div>
 
         <div class="form-group">
-          <label for="email">Email:</label>
-          <input type="email" class="form-control" name="email" value="{{ user_data.email }}" required>
-        </div>
-
-        <div class="form-group">
           <label for="gender">Gender:</label>
           <select class="form-control" name="gender" required>
             <option value="male" {{ 'selected' if user_data.gender=='male' }}>Male</option>
@@ -372,7 +367,32 @@
       </form>
     </div>
   </div>
+  <!-- Add Feedback Section -->
+  <div class="container" data-aos="fade-up">
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="form-group">
+          <label for="feedbackText"><strong>Feedback:</strong></label>
+          <textarea class="form-control" id="feedbackText" rows="3"></textarea>
+        </div>
+        <div class="form-group">
+          <label for="ratingStars"><strong>Rate:</strong></label>
+          <div id="ratingStars" class="rating-stars">
+            <span class="star" data-rating="1">&#9733;</span>
+            <span class="star" data-rating="2">&#9733;</span>
+            <span class="star" data-rating="3">&#9733;</span>
+            <span class="star" data-rating="4">&#9733;</span>
+            <span class="star" data-rating="5">&#9733;</span>
+            <span id="ratingValue" class="rating-value">0</span>
+          </div>
+        </div>
+        <button type="button" class="btn btn-primary" onclick="submitFeedback()">Submit</button>
+        <div id="notification" class="notification-container"></div>
+      </div>
+    </div>
+  </div>
 </section>
+
 
 <style>
   .profile {
@@ -458,7 +478,6 @@
     color: #007bff;
   }
 
-  /* Edit Button Styles */
   .btn-primary {
     background-color: #007bff;
     color: #ffffff;
@@ -474,7 +493,6 @@
     background-color: #0056b3;
   }
 
-  /* Edit Form Styles */
   .profile-edit-form {
     margin-top: 20px;
     padding: 20px;
@@ -523,10 +541,103 @@
     box-shadow: 0 0 10px #57b846;
   }
 
-  /* Hover effect on profile picture */
   .profile:hover .profile-picture img,
   .profile:hover .static-image {
     transform: scale(1.1);
+  }
+
+  .rating-stars {
+    display: inline-block;
+    font-size: 24px;
+  }
+
+  .col-lg-12 {
+    width: 100%;
+  }
+
+  .rating-stars {
+    display: inline-block;
+    font-size: 36px;
+  }
+
+  .star {
+    cursor: pointer;
+    color: #ccc;
+    transition: color 0.3s ease-in-out;
+  }
+
+  .star:hover,
+  .star.selected {
+    color: #ffc107;
+  }
+
+  .rating-value {
+    display: none;
+  }
+
+  .form-group {
+    margin-bottom: 20px;
+  }
+
+  label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: #343a40;
+  }
+
+  textarea.form-control {
+    width: 100%;
+    padding: 10px;
+    border: 2px solid #ffffff;
+    box-shadow: 0 0 8px #007bff;
+    border-radius: 8px;
+    box-sizing: border-box;
+    resize: vertical;
+  }
+
+  button.btn-primary {
+    background-color: #57b846;
+    box-shadow: 0 0 5px #326729;
+    color: #ffffff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 15px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+  }
+
+  button.btn-primary:hover {
+    background-color: #326729;
+    box-shadow: 0 0 10px #57b846;
+  }
+
+  .notification-container {
+    margin-top: 10px;
+    font-size: 14px;
+    color: #155724;
+    background-color: #d4edda;
+    border-color: #c3e6cb;
+    border-radius: .25rem;
+    padding: .75rem 1.25rem;
+    display: none;
+  }
+
+  .notification-success {
+    background-color: #28a745;
+    color: #fff;
+    padding: 10px 20px;
+    border-radius: 5px;
+    margin-bottom: 10px;
+  }
+
+  .notification-error {
+    background-color: #dc3545;
+    color: #fff;
+    padding: 10px 20px;
+    border-radius: 5px;
+    margin-bottom: 10px;
   }
 </style>
 
@@ -598,6 +709,65 @@
       .catch(error => console.error('Error:', error));
   }
 
+</script>
+
+<script>
+  const stars = document.querySelectorAll('.star');
+  const ratingValue = document.getElementById('ratingValue');
+  const notification = document.getElementById('notification');
+  const feedbackTextarea = document.getElementById('feedbackText');
+
+  stars.forEach(star => {
+    star.addEventListener('click', () => {
+      const rating = star.getAttribute('data-rating');
+      ratingValue.textContent = rating;
+      stars.forEach(s => {
+        if (s.getAttribute('data-rating') <= rating) {
+          s.classList.add('selected');
+        } else {
+          s.classList.remove('selected');
+        }
+      });
+    });
+  });
+
+  function displayNotification(message, type) {
+    notification.textContent = message;
+    notification.style.display = 'block';
+    notification.className = `notification-container alert alert-${type}`;
+    setTimeout(() => {
+      notification.style.display = 'none';
+    }, 3000); // Hide after 3 seconds (adjust as needed)
+  }
+
+  function submitFeedback() {
+    const feedbackText = feedbackTextarea.value;
+    const ratingStars = document.querySelectorAll('.star.selected');
+    const rating = ratingStars.length; // Using the number of selected stars for the rating
+    const username = "{{ user_data.first_name }} {{ user_data.middle_name }} {{ user_data.last_name }}"; // Get username from Flask template
+
+    // Send feedback data to Flask backend
+    fetch('/submit_feedback', {
+      method: 'POST',
+      body: JSON.stringify({ feedback: feedbackText, rating: rating, username: username }),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+      .then(response => {
+        // Handle response as needed
+        console.log('Feedback submitted successfully');
+        displayNotification('Feedback submitted successfully', 'success');
+        // Reset feedback text and rating
+        feedbackTextarea.value = '';
+        stars.forEach(star => star.classList.remove('selected'));
+        ratingValue.textContent = '0';
+      })
+      .catch(error => {
+        console.error('Error submitting feedback:', error);
+        displayNotification('Error submitting feedback', 'danger');
+      });
+  }
 </script>
 {% endblock profile %}
 

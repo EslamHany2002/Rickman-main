@@ -1,13 +1,25 @@
 import os
 import firebase_admin
 from firebase_admin import credentials, initialize_app, firestore, storage, auth
-from flask import Flask, render_template, flash, redirect, url_for, session, request, send_file,jsonify
+from flask import Flask, render_template, flash, redirect, url_for, session, request, send_file, jsonify
 from werkzeug.utils import secure_filename
 from werkzeug.security import check_password_hash
+from datetime import datetime
 import cv2
+from keras.models import load_model
 import numpy as np
 import requests
+import io
+import sys
+from kanren import Relation, facts, run
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+from CNN.tumor_type import get_type
+from ultralytics import YOLO
+import SimpleITK as sitk
+import tensorflow as tf
+from skimage.restoration import denoise_tv_chambolle as anisotropic_diffusion
 
+MASK_FOLDER = 'masks'
 UPLOAD_FOLDER = 'uploaded_images'
 FILTERED_IMAGES_FOLDER = 'filtered_images'
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg'}
@@ -15,6 +27,7 @@ ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg'}
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 app.config['FILTERED_IMAGES_FOLDER'] = FILTERED_IMAGES_FOLDER
+app.config['MASK_FOLDER'] = MASK_FOLDER
 app.secret_key = "m4xpl0it"
 
 # Initialize Firebase
@@ -45,46 +58,121 @@ def authenticate_user(email, password):
         print(f"Authentication error: {response.text}")
         return None
 
+epsilon = 1e-5
+smooth = 1
+
+# Define Tversky and related functions
+def tversky(y_true, y_pred):
+    y_true_pos = np.ndarray.flatten(y_true)
+    y_pred_pos = np.ndarray.flatten(y_pred)
+    true_pos = np.sum(y_true_pos * y_pred_pos)
+    false_neg = np.sum(y_true_pos * (1-y_pred_pos))
+    false_pos = np.sum((1-y_true_pos)*y_pred_pos)
+    alpha = 0.7
+    return (true_pos + smooth)/(true_pos + alpha*false_neg + (1-alpha)*false_pos + smooth)
+
+def tversky_loss(y_true, y_pred):
+    return 1 - tversky(y_true, y_pred)
+
+def focal_tversky(y_true, y_pred):
+    pt_1 = tversky(y_true, y_pred)
+    gamma = 0.75
+    return np.power((1-pt_1), gamma)
+
+# Load the segmentation model
+model_seg = load_model("F:\Abdelrhman\Rickman\src\CNN\models\seg_model.h5", custom_objects={"focal_tversky": focal_tversky,
+                                                       "tversky": tversky,
+                                                       "tversky_loss": tversky_loss})
+
+# Load YOLO model
+try:
+    b_model = YOLO('F:\Abdelrhman\Rickman\src\CNN\Yolo\Tumor seg(n).pt')
+    if b_model is not None:
+        print("Model loaded successfully.")
+    else:
+        print("Model is not properly loaded.")
+except Exception as e:
+    print(f"Error loading the model: {e}")
+
+def preprocess_image_yolo(image_path):
+       
+    inputImage = sitk.ReadImage(image_path, sitk.sitkFloat32)
+    image = inputImage
+
+    maskImage = sitk.OtsuThreshold(inputImage, 0, 1, 200)
+    corrector = sitk.N4BiasFieldCorrectionImageFilter()
+    corrected_image = corrector.Execute(image, maskImage)
+
+    log_bias_field = corrector.GetLogBiasFieldAsImage(inputImage)
+    
+    corrected_image_full_resolution = inputImage / sitk.Exp(log_bias_field)
+
+    img = sitk.GetArrayFromImage(corrected_image)
+    
+    im = img.astype(np.uint8)
+    
+    img_resized = cv2.resize(im, (256, 256))
+
+    img = img_resized / 255
+
+    gamma = 2.2
+
+    gamma_corrected = np.array(255* img ** gamma, dtype = 'uint8')
+
+    enhanced = cv2.equalizeHist(gamma_corrected)
+
+    denoised = anisotropic_diffusion(enhanced)
+    
+    depth_reduction = denoised.astype(np.uint8)
+    
+    converted = cv2.cvtColor(depth_reduction, cv2.COLOR_GRAY2RGB)
+    
+    result = b_model([converted])
+    for res in result:
+        if res.masks is not None:
+            multiple = tf.zeros((256, 256), dtype=tf.uint8)
+            for mask in res.masks.data: 
+                if len(res.masks.data) > 1:
+                    multiple = tf.bitwise.bitwise_or(mask, multiple)
+                    mask = multiple.numpy() * 255
+                else:
+                    mask = mask.numpy() * 255
+        else:
+            mask = np.zeros((256, 256), dtype=np.uint8)
+            
+        bmask_image_path = os.path.join(app.config['MASK_FOLDER'], 'bmask_' + os.path.basename(image_path))
+        cv2.imwrite(bmask_image_path, mask)
+            
+    return bmask_image_path
 
 def apply_image_processing(image_path):
     try:
         img = cv2.imread(image_path)
+        img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
 
-        if img is None:
-            raise Exception(f"Error loading image: {image_path}")
+        img_resized = cv2.resize(img, (256, 256))
+        img_standardized = np.array(img_resized, dtype=np.float64)
+        img_standardized -= img_standardized.mean()
+        img_standardized /= img_standardized.std()
 
-        dim = (500, 590)
-        img = cv2.resize(img, dim)
+        X = np.empty((1, 256, 256, 3))
+        X[0,] = img_standardized
+        predict = model_seg.predict(X)
+        predicted_mask = predict.squeeze().round()
 
-        gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+        img_with_overlay = img_resized.copy()
+        img_with_overlay[predicted_mask == 1] = (0, 255, 150)
 
-        enhanced_image = cv2.equalizeHist(gray)
+        # Convert predicted mask to 8-bit image
+        predicted_mask = (predicted_mask * 255).astype(np.uint8)
 
-        _, thresh = cv2.threshold(enhanced_image, 155, 255, cv2.THRESH_BINARY)
-
-        kernel = np.ones((5, 5), np.uint8)
-        thresh = cv2.morphologyEx(thresh, cv2.MORPH_OPEN, kernel)
-        thresh = cv2.morphologyEx(thresh, cv2.MORPH_CLOSE, kernel)
-
-        colormask = np.zeros(img.shape, dtype=np.uint8)
-        colormask[thresh != 0] = np.array((0, 0, 255))
-        tumor_highlight = cv2.addWeighted(img, 0.7, colormask, 0.1, 0)
-
-        ret, markers = cv2.connectedComponents(thresh)
-        marker_area = [np.sum(markers == m) for m in range(1, np.max(markers) + 1)]
-        largest_component = np.argmax(marker_area) + 1
-        tumor_mask = markers == largest_component
-        tumor_out = img.copy()
-        tumor_out[tumor_mask == False] = (0, 0, 0)
-
-        averaging = cv2.blur(tumor_out, (11, 11))
-
-        _, thresh_after_smoothing = cv2.threshold(averaging, 155, 255, cv2.THRESH_BINARY)
-
+        # Save the predicted image
         filtered_image_path = os.path.join(app.config['FILTERED_IMAGES_FOLDER'], 'filtered_' + os.path.basename(image_path))
-        cv2.imwrite(filtered_image_path, thresh_after_smoothing)
+        tmask_image_path = os.path.join(app.config['MASK_FOLDER'], 'mask_' + os.path.basename(image_path))
+        cv2.imwrite(filtered_image_path, img_with_overlay)
+        cv2.imwrite(tmask_image_path, predicted_mask)
 
-        return filtered_image_path
+        return filtered_image_path, tmask_image_path
 
     except Exception as e:
         print("Exception in image processing\n")
@@ -126,7 +214,6 @@ def update_profile():
         age = request.form['age']
         national_id = request.form['national_id']
         phone = request.form['phone']
-        email = request.form['email']
 
         user_ref = firestore_db.collection('users').document(user_id)
         user_data = {
@@ -136,8 +223,7 @@ def update_profile():
             'gender': gender,
             'age': age,
             'national_id': national_id,
-            'phone': phone,
-            'email': email
+            'phone': phone
         }
 
         # Check if a profile picture file is uploaded
@@ -157,14 +243,6 @@ def update_profile():
                 blob.make_public()
                 profile_picture_url = blob.public_url
                 user_data['profile_picture'] = profile_picture_url
-
-        # Check if the email is being updated
-        if email != session['user_id']:
-            try:
-                # Update email in Firebase Authentication
-                user = auth.update_user(user_id, email=email)
-            except Exception as e:
-                print(f"Error updating email in Firebase Authentication: {e}")
 
         # Update user data in Firestore
         user_ref.update(user_data)
@@ -203,11 +281,54 @@ def pred_page():
     pred = session.get('pred_label', None)
     f_name = session.get('filename', None)
     original_image_path = os.path.join(app.config['UPLOAD_FOLDER'], f_name)
-    filtered_image_path = apply_image_processing(original_image_path)
+    paths = apply_image_processing(original_image_path)
+    filtered_image_path = paths[0]
+    tmask_image_path = paths[1]
+    bmask_image_path = preprocess_image_yolo(original_image_path)
 
+    session['tmask_image_path'] = tmask_image_path
+    session['bmask_image_path'] = bmask_image_path
+
+    grade = session.get('grade', None)
+    tumor_type = session.get('type', None)
+    
     user_data = get_user_data(session['user_id'])
 
-    return render_template('pred.html', pred=pred, f_name=f_name, original_image_path=original_image_path, filtered_image_path=filtered_image_path, user_data=user_data)
+    if grade and tumor_type:
+        show_pip = False
+    else:
+        show_pip = pred != 'The image does not contain a brain tumor.'
+    
+    return render_template('pred.html', pred=pred, f_name=f_name, original_image_path=original_image_path, filtered_image_path=filtered_image_path, user_data=user_data, show_pip=show_pip, grade=grade, tumor_type=tumor_type)
+
+
+@app.route("/t_type", methods=['POST', 'GET'])
+def answers():
+   
+    s = request.form.get('smoking')
+    hist = request.form.get('family_history')
+    w = request.form.get('weight')
+    exp = request.form.get('exposure')
+    a = request.form.get('alcohol')
+    app = request.form.get('past_tumor')
+    o = request.form.get('other_cancer')
+    strs = request.form.get('stress')
+    g = request.form.get('sex')
+    age = request.form.get('age')
+    e = request.form.get('ethnicity')
+    
+    bmask_image_path = session.get('bmask_image_path')
+    tmask_image_path = session.get('tmask_image_path')
+    
+    # Get the grade and type using the get_type function
+    tumor_type, grade = get_type(bmask_image_path, tmask_image_path, g, s, age, e, hist, w, exp, a, app, o, strs)
+    
+    # Store grade and type in the session
+    session['grade'] = grade
+    session['type'] = tumor_type
+    
+    return redirect(url_for('pred_page'))
+    
 
 @app.route("/upload", methods=['POST', 'GET'])
 def upload():
@@ -231,6 +352,8 @@ def upload():
                         prediction_data = predicted.json()
                         session['pred_label'] = prediction_data.get('result', '')
                         session['filename'] = filename
+                        session['grade'] = None
+                        session['type'] = None
                         return redirect(url_for('pred_page'))
                     except requests.exceptions.HTTPError as err:
                         flash(f'Error in prediction: {err}', 'error')
@@ -298,6 +421,31 @@ def login():
             flash('Invalid email or password', 'error')
     return render_template("login.html")
 
+@app.route('/submit_feedback', methods=['POST'])
+def submit_feedback():
+    if request.method == 'POST':
+        try:
+            feedback_data = request.get_json()
+            feedback_text = feedback_data.get('feedback')
+            rating = feedback_data.get('rating')
+            username = feedback_data.get('username')
+            time_submitted = datetime.now()
+
+            # Store feedback data in Firebase Firestore
+            feedback_ref = firestore_db.collection('feedback')
+            feedback_ref.add({
+                'text': feedback_text,
+                'rating': rating,
+                'username': username,
+                'time_submitted': time_submitted
+            })
+
+            return jsonify({'success': True})
+        except Exception as e:
+            print(f"Error submitting feedback: {e}")
+            return jsonify({'success': False, 'error': str(e)})
+    return jsonify({'success': False})
+
 @app.route("/register", methods=["GET", "POST"])
 def register():
     if request.method == "POST":
@@ -358,6 +506,6 @@ def forgot_password():
 
 if __name__ == "__main__":
     app.run(debug=True, port=3000)
-
+    
 #cd F:\Abdelrhman\Rickman\src\WebApp
 #python deploy.py

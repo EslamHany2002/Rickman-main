@@ -37,17 +37,154 @@
   <div class="cardpred">
     <div class="container">
       <div class="image-container">
+        {% if show_pip %}
+        <!-- Overlay Section -->
+        <div class="overlay">
+          <div class="overlay-content">
+            <h2>Health Assessment Questions</h2>
+            <form action="/t_type" method="POST">
+              <div class="form-group">
+                <label for="smoker">1. Do you smoke?</label>
+              </div>
+              <div class="form-group">
+                <input type="radio" id="smoker" name="smoking" value="yes">
+                <label for="smoker">Yes</label>
+                <input type="radio" id="not_smoker" name="smoking" value="no">
+                <label for="not_smoker">No</label>
+              </div>
+
+              <div class="form-group">
+                <label for="family_history">2. Do you have a family history of cancers?</label>
+              </div>
+              <div class="form-group">
+                <input type="radio" id="cancer_family_history" name="family_history" value="cancer_family_history">
+                <label for="cancer_family_history">Yes</label>
+                <input type="radio" id="tumor_family_history" name="family_history" value="tumor_family_history">
+                <label for="tumor_family_history">No</label>
+              </div>
+
+              <div class="form-group">
+                <label for="overweight">3. Are you overweight?</label>
+              </div>
+              <div class="form-group">
+                <input type="radio" id="overweight" name="weight" value="overweight">
+                <label for="overweight">Yes</label>
+                <input type="radio" id="no_overweight" name="weight" value="no_overweight">
+                <label for="no_overweight">No</label>
+              </div>
+
+              <div class="form-group">
+                <label for="radiation">4. Have you been exposed to any kinds of radiation or toxins?</label>
+              </div>
+              <div class="form-group">
+                <input type="radio" id="toxins_or_radiation" name="exposure" value="toxins_or_radiation">
+                <label for="toxins_or_radiation">Yes</label>
+                <input type="radio" id="carcinogens" name="exposure" value="carcinogens">
+                <label for="carcinogens">No</label>
+              </div>
+
+              <div class="form-group">
+                <label for="alcohol">5. Do you consume alcohol?</label>
+              </div>
+              <div class="form-group">
+                <input type="radio" id="drinking" name="alcohol" value="drinking">
+                <label for="drinking">Yes</label>
+                <input type="radio" id="not_drinking" name="alcohol" value="not_drinking">
+                <label for="not_drinking">No</label>
+              </div>
+
+              <div class="form-group">
+                <label for="past_tumor">6. Did you have a brain tumor in the past?</label>
+              </div>
+              <div class="form-group">
+                <input type="radio" id="appeared_before" name="past_tumor" value="appeared_before">
+                <label for="appeared_before">Yes</label>
+                <input type="radio" id="didnt_appear_before" name="past_tumor" value="didnt_appear_before">
+                <label for="didnt_appear_before">No</label>
+              </div>
+
+              <div class="form-group">
+                <label for="other_cancer">7. Have you been diagnosed with any other types of cancer?</label>
+              </div>
+              <div class="form-group">
+                <input type="radio" id="has_other_cancer" name="other_cancer" value="has_other_cancer">
+                <label for="has_other_cancer">Yes</label>
+                <input type="radio" id="no_other_cancer" name="other_cancer" value="no_other_cancer">
+                <label for="no_other_cancer">No</label>
+              </div>
+
+              <div class="form-group">
+                <label for="stress">8. Are you constantly under stress?</label>
+              </div>
+              <div class="form-group">
+                <input type="radio" id="under_stress" name="stress" value="under_stress">
+                <label for="under_stress">Yes</label>
+                <input type="radio" id="not_under_stress" name="stress" value="not_under_stress">
+                <label for="not_under_stress">No</label>
+              </div>
+
+              <div class="form-group">
+                <label for="sex">9. What is your sex?</label>
+              </div>
+              <div class="form-group">
+                <input type="radio" id="male" name="sex" value="male">
+                <label for="male">Male</label>
+                <input type="radio" id="female" name="sex" value="female">
+                <label for="female">Female</label>
+              </div>
+
+              <div class="form-group">
+                <label for="age">10. What is your age?</label>
+              </div>
+              <div class="form-group">
+                <input type="radio" id="&lt;=40" name="age" value="&lt;=40">
+                <label for="&lt;=40">&lt;40 or older</label>
+                <input type="radio" id=">40" name="age" value=">40">
+                <label for=">40">younger than 40</label>
+              </div>
+
+              <div class="form-group">
+                <label for="ethnicity">11. What is your ethnicity?</label>
+              </div>
+              <div class="form-group">
+                <input type="radio" id="white" name="ethnicity" value="white">
+                <label for="white">White</label>
+                <input type="radio" id="black" name="ethnicity" value="black">
+                <label for="black">Black</label>
+                <input type="radio" id="hispanic" name="ethnicity" value="hispanic">
+                <label for="hispanic">Hispanic</label>
+              </div>
+
+              <div class="overlay-buttons">
+                <button type="submit" id="submitButton" disabled>Submit</button>
+              </div>
+            </form>
+          </div>
+        </div>
+        {% endif %}
+
         <div class="container" style="text-align: center;">
           <h3 class="original-text">Original Image</h3>
           <img src="{{ url_for('get_uploaded_image', filename=f_name) }}" height="255px" width="255px" />
         </div>
+        {% if pred == 'The image does not contain a brain tumor.' %}
+        <div class="container" style="text-align: center;">
+          <h3 class="detection-text">Detection Image</h3>
+          <img src="{{ url_for('get_uploaded_image', filename=f_name) }}" height="255px" width="255px" />
+        </div>
+        {% else %}
         <div class="container" style="text-align: center;">
           <h3 class="detection-text">Detection Image</h3>
           <img src="{{ url_for('get_filtered_image', filename=f_name) }}" height="255px" width="255px" />
         </div>
+        {% endif %}
       </div>
       <div id="predictionResults">
-        <h2>Prediction: <span id="displayPrediction"></span></h2>
+        <h2>Prediction: <span id="displayPrediction">{{ pred }}</span></h2>
+        {% if grade and tumor_type %}
+        <h3>Grade: <span id="displayGrade">{{ grade }}</span></h3>
+        <h3>Tumor Type: <span id="displayType">{{ tumor_type }}</span></h3>
+        {% endif %}
       </div>
       <button type="button" id="downloadReport" onclick="downloadReport()">Download Report</button>
     </div>
@@ -57,6 +194,18 @@
     var actualPrediction = "{{ pred }}";
     var displayPrediction = actualPrediction ? actualPrediction : "Custom Prediction";
     document.getElementById("displayPrediction").innerText = displayPrediction;
+
+    var grade = "{{ grade }}";
+    var type = "{{ tumor_type }}";
+
+    if (grade) {
+      document.getElementById("displayGrade").innerText = grade;
+    }
+
+    if (type) {
+      document.getElementById("displayType").innerText = type;
+    }
+
   </script>
 
   <script>
@@ -64,6 +213,8 @@
       var imageBefore = "{{ url_for('get_uploaded_image', filename=f_name) }}";
       var imageAfter = "{{ url_for('get_filtered_image', filename=f_name) }}";
       var displayPrediction = "{{ pred }}";
+      var displayGrade = "{{ grade }}";
+      var displayType = "{{ tumor_type }}";
       var fileName = "{{ f_name }}";
       var logoSrc = "{{ url_for('static', filename='custom/logoo.png') }}";
 
@@ -81,93 +232,101 @@
       var reportDateTime = mm + '/' + dd + '/' + yyyy + ' ' + hours + ':' + minutes + ':' + seconds + ' ' + ampm;
 
       var htmlContent = `
-      <div style="display: flex; align-items: center; margin-bottom: 50px;">
-          <img src="${logoSrc}" alt="Logo" style="height: 80px; margin-left: 5px;">
-      </div>
+    <div style="display: flex; align-items: center; margin-bottom: 50px;">
+        <img src="${logoSrc}" alt="Logo" style="height: 80px; margin-left: 5px;">
+    </div>
 
-      <style>
-          #userData {
-              display: flex;
-              justify-content: space-between;
-          }
+    <style>
+        #userData {
+            display: flex;
+            justify-content: space-between;
+        }
 
-          table {
-              border-collapse: collapse;
-              width: 50%;
-          }
+        table {
+            border-collapse: collapse;
+            width: 50%;
+        }
 
-          table, td {
-              border: 1px solid #000;
-              padding: 8px;
-              text-align: left;
-          }
+        table, td {
+            border: 1px solid #000;
+            padding: 8px;
+            text-align: left;
+        }
 
-          th {
-              border: 1px solid #000;
-              background-color: #fff;
-              padding: 8px;
-              text-align: left;
-          }
-      </style>
+        th {
+            border: 1px solid #000;
+            background-color: #fff;
+            padding: 8px;
+            text-align: left;
+        }
+    </style>
 
-      <div id="userData">
-          <table>
-              <tr>
-                  <th><strong>Patient Name:</strong></th>
-                  <td>{{ user_data.first_name }} {{ user_data.middle_name}} {{ user_data.last_name }}</td>
-              </tr>
-              <tr>
-                  <th><strong>Email Adress:</strong></th>
-                  <td>{{ user_data.email }}</td>
-              </tr>
-              <tr>
-                  <th><strong>National ID:</strong></th>
-                  <td>{{ user_data.national_id }}</td>
-              </tr>
-              <tr>
-                  <th><strong>Gender:</strong></th>
-                  <td>{{ user_data.gender }}</td>
-              </tr>
-          </table>
+    <div id="userData">
+        <table>
+            <tr>
+                <th><strong>Patient Name:</strong></th>
+                <td>{{ user_data.first_name }} {{ user_data.middle_name}} {{ user_data.last_name }}</td>
+            </tr>
+            <tr>
+                <th><strong>Email Adress:</strong></th>
+                <td>{{ user_data.email }}</td>
+            </tr>
+            <tr>
+                <th><strong>National ID:</strong></th>
+                <td>{{ user_data.national_id }}</td>
+            </tr>
+            <tr>
+                <th><strong>Gender:</strong></th>
+                <td>{{ user_data.gender }}</td>
+            </tr>
+        </table>
 
-          <table>
-              <tr>
-                  <th><strong>Report Date:</strong></th>
-                  <td>${reportDateTime}</td>
-              </tr>
-              <tr>
-                  <th><strong>Phone number:</strong></th>
-                  <td>{{ user_data.phone }}</td>
-              </tr>
-              <tr>
-                  <th><strong>Rays Modality:</strong></th>
-                  <td>CT/MRI</td>
-              </tr>
-              <tr>
-                  <th><strong>Patient Age:</strong></th>
-                  <td>{{ user_data.age }} Years</td>
-              </tr>
-          </table>
-      </div>
+        <table>
+            <tr>
+                <th><strong>Report Date:</strong></th>
+                <td>${reportDateTime}</td>
+            </tr>
+            <tr>
+                <th><strong>Phone number:</strong></th>
+                <td>{{ user_data.phone }}</td>
+            </tr>
+            <tr>
+                <th><strong>Rays Modality:</strong></th>
+                <td>CT/MRI</td>
+            </tr>
+            <tr>
+                <th><strong>Patient Age:</strong></th>
+                <td>{{ user_data.age }} Years</td>
+            </tr>
+        </table>
+    </div>
 
-      <div style="text-align: center; margin-bottom: 60px;margin-top: 60px;">
-          <h1 style="font-weight: bold;">Medical Report</h1>
-      </div>
+    <div style="text-align: center; margin-bottom: 30px;margin-top: 60px;">
+        <h1 style="font-weight: bold;">Medical Report</h1>
+    </div>
 
-      <div style="display: flex; justify-content: space-around; align-items: center; margin-bottom: 40px;">
-          <div style="text-align: center;">
-              <p>Original Image</p>
-              <img src="${imageBefore}" height="255px" width="255px" style="border-radius: 30px;" />
-          </div>
+    <div style="display: flex; justify-content: space-around; align-items: center; margin-bottom: 40px;">
+        <div style="text-align: center;">
+            <p>Original Image</p>
+            <img src="${imageBefore}" height="255px" width="255px" style="border-radius: 30px;" />
+        </div>
+        {% if pred == 'The image does not contain a brain tumor.' %}
+        <div style="text-align: center;">
+            <p>Detection Image</p>
+            <img src="${imageBefore}" height="255px" width="255px" style="border-radius: 30px;" />
+        </div>
+        {% else %}
+        <div style="text-align: center;">
+            <p>Detection Image</p>
+            <img src="${imageAfter}" height="255px" width="255px" style="border-radius: 30px;" />
+        </div>
+        {% endif %}
+    </div>
 
-          <div style="text-align: center;">
-              <p>Detection Image</p>
-              <img src="${imageAfter}" height="255px" width="255px" style="border-radius: 30px;" />
-          </div>
-      </div>
-
-      <div style="text-align: left; margin-top: 100px; margin-left: 12px;">
-          <h2 style="font-weight: bold;">Prediction: <span style="font-weight: 100;">${displayPrediction}</span></h2>
+    <div style="text-align: left; margin-top: 60px; margin-left: 12px;">
+        <h2 style="font-weight: bold;">Prediction: <span style="font-weight: 100;">${displayPrediction}</span></h2>
+        <h3 style="font-weight: bold;">Tumor Type: <span style="font-weight: 100;">${displayType}</span></h3>
+        <h3 style="font-weight: bold;">Grade: <span style="font-weight: 100;">${displayGrade}</span></h3>
       </div>
 
       <div style="text-align: left; margin-top: 100px; border-top: 1px solid #606060; border-bottom: 1px solid #606060;">
@@ -186,6 +345,43 @@
         jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
       });
     }
+  </script>
+
+  <script>
+    // Check if all questions are answered
+    function checkAnswers() {
+      var allAnswered = true;
+      var radioGroups = document.querySelectorAll("input[type='radio']");
+      radioGroups.forEach(function (radio) {
+        var groupName = radio.getAttribute("name");
+        var groupChecked = document.querySelector("input[name='" + groupName + "']:checked");
+        if (!groupChecked) {
+          allAnswered = false;
+          return;
+        }
+      });
+
+      return allAnswered;
+    }
+
+    // Enable or disable submit button based on answers
+    function updateSubmitButton() {
+      var submitButton = document.getElementById("submitButton");
+      if (checkAnswers()) {
+        submitButton.disabled = false;
+      } else {
+        submitButton.disabled = true;
+      }
+    }
+
+    // Add event listeners to radio buttons
+    var radioGroups = document.querySelectorAll("input[type='radio']");
+    radioGroups.forEach(function (radio) {
+      radio.addEventListener("click", updateSubmitButton);
+    });
+
+    // Initial check and update of submit button
+    updateSubmitButton();
   </script>
 
 </body>
