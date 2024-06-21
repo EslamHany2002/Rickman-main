@@ -18,6 +18,7 @@ from ultralytics import YOLO
 import SimpleITK as sitk
 import tensorflow as tf
 from skimage.restoration import denoise_tv_chambolle as anisotropic_diffusion
+from treatment_model import predict_protocol
 
 MASK_FOLDER = 'masks'
 UPLOAD_FOLDER = 'uploaded_images'
@@ -186,6 +187,21 @@ def get_user_data(email):
     user_ref = firestore_db.collection('users').document(email)
     user_data = user_ref.get().to_dict()
     return user_data
+
+@app.route('/predict_protocol', methods=['POST'])
+def handle_predict_protocol():
+    try:
+        data = request.json
+        age = data['age']
+        previous_treatments = data['previous_treatments']
+        tumor_type = data['tumor_type'].capitalize()
+        level = data['level'].lower()
+        spread_of_tumor = data['spread_of_tumor']
+
+        protocol = predict_protocol(age, previous_treatments, tumor_type, level, spread_of_tumor)
+        return jsonify({'protocol': protocol})
+    except Exception as e:
+        return jsonify({'error': str(e)}), 400
 
 @app.route("/")
 def index():
@@ -399,28 +415,6 @@ def get_filtered_image():
 
     return "Filtered Image not found"
 
-@app.route("/logout", methods=["POST"])
-def logout():
-    session.pop('user_id', None)
-    session.pop('user_token', None)
-    return redirect(url_for('index'))
-
-@app.route("/login", methods=["GET", "POST"])
-def login():
-    if request.method == "POST":
-        email = request.form["email"]
-        passw = request.form["passw"]
-
-        token = authenticate_user(email, passw)
-
-        if token:
-            session['user_id'] = email
-            session['user_token'] = token
-            return redirect(url_for("index_auth"))
-        else:
-            flash('Invalid email or password', 'error')
-    return render_template("login.html")
-
 @app.route('/submit_feedback', methods=['POST'])
 def submit_feedback():
     if request.method == 'POST':
@@ -445,6 +439,28 @@ def submit_feedback():
             print(f"Error submitting feedback: {e}")
             return jsonify({'success': False, 'error': str(e)})
     return jsonify({'success': False})
+
+@app.route("/logout", methods=["POST"])
+def logout():
+    session.pop('user_id', None)
+    session.pop('user_token', None)
+    return redirect(url_for('index'))
+
+@app.route("/login", methods=["GET", "POST"])
+def login():
+    if request.method == "POST":
+        email = request.form["email"]
+        passw = request.form["passw"]
+
+        token = authenticate_user(email, passw)
+
+        if token:
+            session['user_id'] = email
+            session['user_token'] = token
+            return redirect(url_for("index_auth"))
+        else:
+            flash('Invalid email or password', 'error')
+    return render_template("login.html")
 
 @app.route("/register", methods=["GET", "POST"])
 def register():
