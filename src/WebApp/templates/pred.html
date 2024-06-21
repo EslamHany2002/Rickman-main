@@ -14,6 +14,7 @@
   <script src="https://rawgit.com/eKoopmans/html2pdf/master/dist/html2pdf.bundle.js"></script>
 
   <link rel="stylesheet" href="{{ url_for('static', filename='css/pred.css') }}" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
 </head>
 
 <header>
@@ -34,159 +35,181 @@
 </label>
 
 <body>
+  {% if show_pip %}
   <div class="cardpred">
-    <div class="container">
-      <div class="image-container">
-        {% if show_pip %}
-        <!-- Overlay Section -->
-        <div class="overlay">
-          <div class="overlay-content">
-            <h2>Health Assessment Questions</h2>
-            <form action="/t_type" method="POST">
-              <div class="form-group">
-                <label for="smoker">1. Do you smoke?</label>
-              </div>
-              <div class="form-group">
-                <input type="radio" id="smoker" name="smoking" value="yes">
-                <label for="smoker">Yes</label>
-                <input type="radio" id="not_smoker" name="smoking" value="no">
-                <label for="not_smoker">No</label>
-              </div>
-
-              <div class="form-group">
-                <label for="family_history">2. Do you have a family history of cancers?</label>
-              </div>
-              <div class="form-group">
-                <input type="radio" id="cancer_family_history" name="family_history" value="cancer_family_history">
-                <label for="cancer_family_history">Yes</label>
-                <input type="radio" id="tumor_family_history" name="family_history" value="tumor_family_history">
-                <label for="tumor_family_history">No</label>
-              </div>
-
-              <div class="form-group">
-                <label for="overweight">3. Are you overweight?</label>
-              </div>
-              <div class="form-group">
-                <input type="radio" id="overweight" name="weight" value="overweight">
-                <label for="overweight">Yes</label>
-                <input type="radio" id="no_overweight" name="weight" value="no_overweight">
-                <label for="no_overweight">No</label>
-              </div>
-
-              <div class="form-group">
-                <label for="radiation">4. Have you been exposed to any kinds of radiation or toxins?</label>
-              </div>
-              <div class="form-group">
-                <input type="radio" id="toxins_or_radiation" name="exposure" value="toxins_or_radiation">
-                <label for="toxins_or_radiation">Yes</label>
-                <input type="radio" id="carcinogens" name="exposure" value="carcinogens">
-                <label for="carcinogens">No</label>
-              </div>
-
-              <div class="form-group">
-                <label for="alcohol">5. Do you consume alcohol?</label>
-              </div>
-              <div class="form-group">
-                <input type="radio" id="drinking" name="alcohol" value="drinking">
-                <label for="drinking">Yes</label>
-                <input type="radio" id="not_drinking" name="alcohol" value="not_drinking">
-                <label for="not_drinking">No</label>
-              </div>
-
-              <div class="form-group">
-                <label for="past_tumor">6. Did you have a brain tumor in the past?</label>
-              </div>
-              <div class="form-group">
-                <input type="radio" id="appeared_before" name="past_tumor" value="appeared_before">
-                <label for="appeared_before">Yes</label>
-                <input type="radio" id="didnt_appear_before" name="past_tumor" value="didnt_appear_before">
-                <label for="didnt_appear_before">No</label>
-              </div>
-
-              <div class="form-group">
-                <label for="other_cancer">7. Have you been diagnosed with any other types of cancer?</label>
-              </div>
-              <div class="form-group">
-                <input type="radio" id="has_other_cancer" name="other_cancer" value="has_other_cancer">
-                <label for="has_other_cancer">Yes</label>
-                <input type="radio" id="no_other_cancer" name="other_cancer" value="no_other_cancer">
-                <label for="no_other_cancer">No</label>
-              </div>
-
-              <div class="form-group">
-                <label for="stress">8. Are you constantly under stress?</label>
-              </div>
-              <div class="form-group">
-                <input type="radio" id="under_stress" name="stress" value="under_stress">
-                <label for="under_stress">Yes</label>
-                <input type="radio" id="not_under_stress" name="stress" value="not_under_stress">
-                <label for="not_under_stress">No</label>
-              </div>
-
-              <div class="form-group">
-                <label for="sex">9. What is your sex?</label>
-              </div>
-              <div class="form-group">
-                <input type="radio" id="male" name="sex" value="male">
-                <label for="male">Male</label>
-                <input type="radio" id="female" name="sex" value="female">
-                <label for="female">Female</label>
-              </div>
-
-              <div class="form-group">
-                <label for="age">10. What is your age?</label>
-              </div>
-              <div class="form-group">
-                <input type="radio" id="&lt;=40" name="age" value="&lt;=40">
-                <label for="&lt;=40">&lt;40 or older</label>
-                <input type="radio" id=">40" name="age" value=">40">
-                <label for=">40">younger than 40</label>
-              </div>
-
-              <div class="form-group">
-                <label for="ethnicity">11. What is your ethnicity?</label>
-              </div>
-              <div class="form-group">
-                <input type="radio" id="white" name="ethnicity" value="white">
-                <label for="white">White</label>
-                <input type="radio" id="black" name="ethnicity" value="black">
-                <label for="black">Black</label>
-                <input type="radio" id="hispanic" name="ethnicity" value="hispanic">
-                <label for="hispanic">Hispanic</label>
-              </div>
-
-              <div class="overlay-buttons">
-                <button type="submit" id="submitButton" disabled>Submit</button>
-              </div>
-            </form>
+    <!-- Overlay Section -->
+    <div class="overlay">
+      <div class="overlay-content">
+        <h2>Health Assessment Questions</h2>
+        <form action="/t_type" method="POST">
+          <div class="form-group">
+            <label for="smoker">1. Do you smoke?</label>
           </div>
-        </div>
-        {% endif %}
+          <div class="form-group">
+            <input type="radio" id="smoker" name="smoking" value="yes">
+            <label for="smoker">Yes</label>
+            <input type="radio" id="not_smoker" name="smoking" value="no">
+            <label for="not_smoker">No</label>
+          </div>
 
-        <div class="container" style="text-align: center;">
-          <h3 class="original-text">Original Image</h3>
-          <img src="{{ url_for('get_uploaded_image', filename=f_name) }}" height="255px" width="255px" />
-        </div>
-        {% if pred == 'The image does not contain a brain tumor.' %}
-        <div class="container" style="text-align: center;">
-          <h3 class="detection-text">Detection Image</h3>
-          <img src="{{ url_for('get_uploaded_image', filename=f_name) }}" height="255px" width="255px" />
-        </div>
-        {% else %}
-        <div class="container" style="text-align: center;">
-          <h3 class="detection-text">Detection Image</h3>
-          <img src="{{ url_for('get_filtered_image', filename=f_name) }}" height="255px" width="255px" />
-        </div>
-        {% endif %}
+          <div class="form-group">
+            <label for="family_history">2. Do you have a family history of cancers?</label>
+          </div>
+          <div class="form-group">
+            <input type="radio" id="cancer_family_history" name="family_history" value="cancer_family_history">
+            <label for="cancer_family_history">Yes</label>
+            <input type="radio" id="tumor_family_history" name="family_history" value="tumor_family_history">
+            <label for="tumor_family_history">No</label>
+          </div>
+
+          <div class="form-group">
+            <label for="overweight">3. Are you overweight?</label>
+          </div>
+          <div class="form-group">
+            <input type="radio" id="overweight" name="weight" value="overweight">
+            <label for="overweight">Yes</label>
+            <input type="radio" id="no_overweight" name="weight" value="no_overweight">
+            <label for="no_overweight">No</label>
+          </div>
+
+          <div class="form-group">
+            <label for="radiation">4. Have you been exposed to any kinds of radiation or toxins?</label>
+          </div>
+          <div class="form-group">
+            <input type="radio" id="toxins_or_radiation" name="exposure" value="toxins_or_radiation">
+            <label for="toxins_or_radiation">Yes</label>
+            <input type="radio" id="carcinogens" name="exposure" value="carcinogens">
+            <label for="carcinogens">No</label>
+          </div>
+
+          <div class="form-group">
+            <label for="alcohol">5. Do you consume alcohol?</label>
+          </div>
+          <div class="form-group">
+            <input type="radio" id="drinking" name="alcohol" value="drinking">
+            <label for="drinking">Yes</label>
+            <input type="radio" id="not_drinking" name="alcohol" value="not_drinking">
+            <label for="not_drinking">No</label>
+          </div>
+
+          <div class="form-group">
+            <label for="past_tumor">6. Did you have a brain tumor in the past?</label>
+          </div>
+          <div class="form-group">
+            <input type="radio" id="appeared_before" name="past_tumor" value="appeared_before">
+            <label for="appeared_before">Yes</label>
+            <input type="radio" id="didnt_appear_before" name="past_tumor" value="didnt_appear_before">
+            <label for="didnt_appear_before">No</label>
+          </div>
+
+          <div class="form-group">
+            <label for="other_cancer">7. Have you been diagnosed with any other types of cancer?</label>
+          </div>
+          <div class="form-group">
+            <input type="radio" id="has_other_cancer" name="other_cancer" value="has_other_cancer">
+            <label for="has_other_cancer">Yes</label>
+            <input type="radio" id="no_other_cancer" name="other_cancer" value="no_other_cancer">
+            <label for="no_other_cancer">No</label>
+          </div>
+
+          <div class="form-group">
+            <label for="stress">8. Are you constantly under stress?</label>
+          </div>
+          <div class="form-group">
+            <input type="radio" id="under_stress" name="stress" value="under_stress">
+            <label for="under_stress">Yes</label>
+            <input type="radio" id="not_under_stress" name="stress" value="not_under_stress">
+            <label for="not_under_stress">No</label>
+          </div>
+
+          <div class="form-group">
+            <label for="sex">9. What is your sex?</label>
+          </div>
+          <div class="form-group">
+            <input type="radio" id="male" name="sex" value="male">
+            <label for="male">Male</label>
+            <input type="radio" id="female" name="sex" value="female">
+            <label for="female">Female</label>
+          </div>
+
+          <div class="form-group">
+            <label for="age">10. What is your age?</label>
+          </div>
+          <div class="form-group">
+            <input type="radio" id="&lt;=40" name="age" value="&lt;=40">
+            <label for="&lt;=40">&lt;40 or older</label>
+            <input type="radio" id=">40" name="age" value=">40">
+            <label for=">40">younger than 40</label>
+          </div>
+
+          <div class="form-group">
+            <label for="ethnicity">11. What is your ethnicity?</label>
+          </div>
+          <div class="form-group">
+            <input type="radio" id="white" name="ethnicity" value="white">
+            <label for="white">White</label>
+            <input type="radio" id="black" name="ethnicity" value="black">
+            <label for="black">Black</label>
+            <input type="radio" id="hispanic" name="ethnicity" value="hispanic">
+            <label for="hispanic">Hispanic</label>
+          </div>
+
+          <div class="overlay-buttons">
+            <button type="submit" id="submitButton" disabled>Submit</button>
+          </div>
+        </form>
       </div>
-      <div id="predictionResults">
-        <h2>Prediction: <span id="displayPrediction">{{ pred }}</span></h2>
-        {% if grade and tumor_type %}
-        <h3>Grade: <span id="displayGrade">{{ grade }}</span></h3>
-        <h3>Tumor Type: <span id="displayType">{{ tumor_type }}</span></h3>
-        {% endif %}
+    </div>
+  </div>
+  {% endif %}
+  <div class="container">
+    <div class="image-container">
+      <div class="img" style="text-align: center;">
+        <h3 class="original-text">Original Image</h3>
+        <img src="{{ url_for('get_uploaded_image', filename=f_name) }}" height="255px" width="255px" />
       </div>
-      <button type="button" id="downloadReport" onclick="downloadReport()">Download Report</button>
+      {% if pred == 'The image does not contain a brain tumor.' %}
+      <div class="img" style="text-align: center;">
+        <h3 class="detection-text">Detection Image</h3>
+        <img src="{{ url_for('get_uploaded_image', filename=f_name) }}" height="255px" width="255px" />
+      </div>
+      {% else %}
+      <div class="img" style="text-align: center;">
+        <h3 class="detection-text">Detection Image</h3>
+        <img src="{{ url_for('get_filtered_image', filename=f_name) }}" height="255px" width="255px" />
+      </div>
+      {% endif %}
+    </div>
+    <div id="predictionResults">
+      <div class="result-section">
+        <h3 class="result-title">Prediction:</h3>
+        <p class="result-value" id="displayPrediction" style="font-size: 17px;">{{ pred }}</p>
+      </div>
+      {% if grade and tumor_type %}
+      <div class="result-section">
+        <h3 class="result-title">Tumor Type:</h3>
+        <p class="result-value" id="displayType" style="font-size: 17px;">{{ tumor_type }}</p>
+      </div>
+      <div class="result-section">
+        <h3 class="result-title">Grade:</h3>
+        <p class="result-value" id="displayGrade" style="font-size: 17px;">{{ grade }}</p>
+      </div>
+      {% endif %}
+      <div class="result-section" id="result-container" style="display: none; text-align: left;">
+        <h3 class="result-title" style="display: inline-block; margin-left: 0px;">Treatment Protocol:</h3>
+        <p id="protocol-result" style="display: inline-block; font-size: 17px;"></p>
+      </div>
+    </div>
+    <div class="button-container">
+      {% if pred != 'The image does not contain a brain tumor.' %}
+      <button type="button" id="gitTreatmentProtocol" onclick="showTreatmentForm()" class="get-treatment-button">Get
+        Treatment Protocol <i class="fas fa-notes-medical"></i></button>
+      <button type="button" id="downloadReport" onclick="downloadReport()" class="download-button">Download Report <i
+          class="fas fa-file-download"></i></button>
+      {% else %}
+      <button type="button" id="downloadReport-alt" onclick="downloadReport()" class="download-button-alt">Download
+        Report <i class="fas fa-file-download"></i></button>
+      {% endif %}
     </div>
   </div>
 
@@ -292,7 +315,7 @@
             </tr>
             <tr>
                 <th><strong>Rays Modality:</strong></th>
-                <td>CT/MRI</td>
+                <td>MRI Scan</td>
             </tr>
             <tr>
                 <th><strong>Patient Age:</strong></th>
@@ -301,7 +324,7 @@
         </table>
     </div>
 
-    <div style="text-align: center; margin-bottom: 30px;margin-top: 60px;">
+    <div style="text-align: center; margin-bottom: 30px; margin-top: 60px;">
         <h1 style="font-weight: bold;">Medical Report</h1>
     </div>
 
@@ -323,16 +346,39 @@
         {% endif %}
     </div>
 
-    <div style="text-align: left; margin-top: 60px; margin-left: 12px;">
-        <h2 style="font-weight: bold;">Prediction: <span style="font-weight: 100;">${displayPrediction}</span></h2>
-        <h3 style="font-weight: bold;">Tumor Type: <span style="font-weight: 100;">${displayType}</span></h3>
-        <h3 style="font-weight: bold;">Grade: <span style="font-weight: 100;">${displayGrade}</span></h3>
-      </div>
+  <div style="text-align: left; margin-top: 60px; margin-left: 12px;">
+    <div style="margin-bottom: 16px;">
+        <h3 style="font-weight: bold; font-size: 22px; display: inline;">Prediction:</h3>
+        <span style="font-weight: 100; font-size: 20px;">${displayPrediction}</span>
+    </div>
+    <div style="margin-bottom: 16px;">
+        <h3 style="font-weight: bold; font-size: 22px; display: inline;">Tumor Type:</h3>
+        <span style="font-weight: 100; font-size: 20px;">${displayType}</span>
+    </div>
+    <div style="margin-bottom: 16px;">
+        <h3 style="font-weight: bold; font-size: 22px; display: inline;">Grade:</h3>
+        <span style="font-weight: 100; font-size: 20px;">${displayGrade}</span>
+    </div>
+  </div>
+      `;
 
-      <div style="text-align: left; margin-top: 100px; border-top: 1px solid #606060; border-bottom: 1px solid #606060;">
+      if (typeof protocolResult !== 'undefined' && protocolResult !== '') {
+        htmlContent += `
+        <div style="margin-bottom: 15px; margin-left: 12px;">
+          <h3 style="font-weight: bold; font-size: 22px; display: inline;">Treatment Protocol:</h3>
+          <span style="font-weight: 100; font-size: 20px;">${protocolResult}</span>
+        </div>
+        <div style="text-align: left; margin-top: 55px; border-top: 1px solid #606060; border-bottom: 1px solid #606060;">
           <p style="font-size: 14px; font-weight: lighter; margin-left: 20px; margin-right: 20px; color: #606060;">Please be informed that this software is designed to assist in the surveillance of brain tumors, and any outcomes shouldn't be interpreted as conclusive or ultimate diagnoses until further consultation with a medical professional have been sought.</p>
+        </div>
+      `;
+      } else {
+        htmlContent += `
+      <div style="text-align: left; margin-top: 100px; border-top: 1px solid #606060; border-bottom: 1px solid #606060;">
+        <p style="font-size: 14px; font-weight: lighter; margin-left: 20px; margin-right: 20px; color: #606060;">Please be informed that this software is designed to assist in the surveillance of brain tumors, and any outcomes shouldn't be interpreted as conclusive or ultimate diagnoses until further consultation with a medical professional have been sought.</p>
       </div>
       `;
+      }
 
       var element = document.createElement('div');
       element.innerHTML = htmlContent;
@@ -382,6 +428,148 @@
 
     // Initial check and update of submit button
     updateSubmitButton();
+  </script>
+
+  <script>
+    var actualPrediction = "{{ pred }}";
+    var displayPrediction = actualPrediction ? actualPrediction : "Custom Prediction";
+    document.getElementById("displayPrediction").innerText = displayPrediction;
+
+    var grade = "{{ grade }}";
+    var type = "{{ tumor_type }}";
+
+    if (grade) {
+      document.getElementById("displayGrade").innerText = grade;
+    }
+
+    if (type) {
+      document.getElementById("displayType").innerText = type;
+    }
+
+    function showTreatmentForm() {
+      const overlay = document.createElement('div');
+      overlay.id = 'overlay';
+      overlay.style.position = 'fixed';
+      overlay.style.top = '0';
+      overlay.style.left = '0';
+      overlay.style.width = '100%';
+      overlay.style.height = '100%';
+      overlay.style.backgroundColor = 'rgba(0, 0, 0, 0.5)';
+      overlay.style.display = 'flex';
+      overlay.style.alignItems = 'center';
+      overlay.style.justifyContent = 'center';
+
+      const pipForm = document.createElement('div');
+      pipForm.id = 'pipForm';
+      pipForm.innerHTML = `
+      <div class="form-container">
+        <h1 style="font-size: 24px; margin-bottom: 20px;">Treatment Protocol Prediction</h1>
+        <form id="treatment-form" onsubmit="submitForm(event)">
+          <div class="input-group">
+            <label for="age">Age:</label>
+            <input type="number" id="age" name="age" required>
+          </div>
+          <div class="input-group">
+            <label for="previous_treatments">Previous Treatments:</label>
+            <select id="previous_treatments" name="previous_treatments" required>
+              <option value="0">No</option>
+              <option value="1">Yes</option>
+            </select>
+          </div>
+          <div class="input-group">
+            <label for="tumor_type">Tumor Type:</label>
+            <select id="tumor_type" name="tumor_type" required>
+              <option value="glioma">Glioma</option>
+              <option value="pituitary">Pituitary</option>
+              <option value="meningioma">Meningioma</option>
+            </select>
+          </div>
+          <div class="input-group">
+            <label for="level">Level:</label>
+            <select id="level" name="level" required>
+              <option value="low grade" data-grade="I">Grade-I tumor</option>
+              <option value="low grade" data-grade="II">Grade-II tumor</option>
+              <option value="high grade" data-grade="III">Grade-III tumor</option>
+              <option value="high grade" data-grade="IV">Grade-IV tumor</option>
+            </select>
+          </div>
+          <div class="input-group">
+            <label for="spread_of_tumor">Spread of Tumor:</label>
+            <select id="spread_of_tumor" name="spread_of_tumor" required>
+              <option value="0">Benign</option>
+              <option value="1">Malignant</option>
+            </select>
+          </div>
+          <div class="button-group">
+            <button type="button" id="close-button">Close</button>
+            <button type="submit">Submit</button>
+          </div>
+        </form>
+      </div>
+    `;
+      pipForm.style.maxWidth = '800px';
+      pipForm.style.margin = '40px auto';
+      pipForm.style.padding = '20px';
+      pipForm.style.borderRadius = '20px';
+      pipForm.style.width = '80%';
+      pipForm.style.height = '575px';
+
+      overlay.appendChild(pipForm);
+      document.body.appendChild(overlay);
+
+      const closeButton = document.getElementById('close-button');
+      closeButton.addEventListener('click', () => {
+        const overlay = document.getElementById('overlay');
+        document.body.removeChild(overlay);
+      });
+
+      const levelSelect = document.getElementById('level');
+      levelSelect.addEventListener('change', () => {
+        const selectedOption = levelSelect.options[levelSelect.selectedIndex];
+        const grade = selectedOption.getAttribute('data-grade');
+        if (grade === 'I' || grade === 'II') {
+          levelSelect.value = 'low grade';
+        } else {
+          levelSelect.value = 'high grade';
+        }
+      });
+    }
+
+    function submitForm(event) {
+      event.preventDefault();
+      const form = document.getElementById('treatment-form');
+      const formData = new FormData(form);
+      const data = {
+        age: formData.get('age'),
+        previous_treatments: formData.get('previous_treatments'),
+        tumor_type: formData.get('tumor_type'),
+        level: formData.get('level'),
+        spread_of_tumor: formData.get('spread_of_tumor')
+      };
+
+      fetch('/predict_protocol', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+      })
+        .then(response => response.json())
+        .then(result => {
+          protocolResult = result.protocol;
+          const resultContainer = document.getElementById('result-container');
+          const protocolResultElement = document.getElementById('protocol-result');
+          protocolResultElement.textContent = protocolResult;
+          resultContainer.style.display = 'block';
+
+          // Close the overlay after submitting the form
+          const overlay = document.getElementById('overlay');
+          document.body.removeChild(overlay);
+        })
+        .catch(error => {
+          console.error('Error:', error);
+        });
+    }
   </script>
 
 </body>
